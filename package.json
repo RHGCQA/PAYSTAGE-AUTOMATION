@@ -1,0 +1,19 @@
+{
+  "name": "paystage_cy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@kanidjar/cypress-qatouch-reporter": "^1.1.1",
+    "crypto-js": "^4.2.0"
+  },
+  "devDependencies": {
+    "cypress": "^13.5.1",
+    "mocha-junit-reporter": "^2.2.1"
+  }
+}
