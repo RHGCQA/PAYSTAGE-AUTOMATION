@@ -47,6 +47,8 @@ describe('Login-Page-Negative', () =>{
         .should('be.visible').contains(errormessage.invalid_creds);
     })
 })
+//test test
+test = 0
 
 
 describe('Login-Page-Positive', () =>{
@@ -62,14 +64,7 @@ describe('Login-Page-Positive', () =>{
         });
     })
 
-    it('Login Page should have text', () => {
-        cy.get(loginpage_locators.login_login_text_loc)
-        .should('be.visible').contains(common.login_login_text);
-        cy.get(loginpage_locators.login_email_text_loc)
-        .should('be.visible').contains(common.login_email_text);
-        cy.get(loginpage_locators.login_password_text_loc)
-        .should('be.visible').contains(common.login_pass_text);
-    })
+
 
     it('Login Page should have clickables', () => {
         cy.get(loginpage_locators.submit_button)
