@@ -3,7 +3,7 @@ const common = {
     //login page
     login_url: "https://staging.paystage.net/login",
     adminEmail: "jester@orientalwallet.com",
-    adminPass: "aaBB1010!!",
+    adminPass: "$sFWy{J'",
     randomString: "asd123!!",
 
     login_login_text: "Login",

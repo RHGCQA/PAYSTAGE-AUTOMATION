@@ -1,0 +1,32 @@
+[
+  {
+    "color": "brown",
+    "type": "cat",
+    "size": "nano",
+    "name": "Billie"
+  },
+  {
+    "color": "white",
+    "type": "chicken",
+    "size": "nano",
+    "name": "Obi Wan Henobi"
+  },
+  {
+    "color": "gray",
+    "type": "totoro",
+    "size": "nano",
+    "name": "Max"
+  },
+  {
+    "color": "green",
+    "type": "turtle",
+    "size": "nano",
+    "name": "Zagreus"
+  },
+  {
+    "color": "gray",
+    "type": "rocky",
+    "size": "nano",
+    "name": "Onix"
+  }
+]
