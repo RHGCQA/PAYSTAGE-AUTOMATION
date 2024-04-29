@@ -88,3 +88,41 @@ describe('Login-Page-Negative', () =>{
         .should('be.visible').contains(errormessage.invalid_creds);
     })
 })
+//test test
+test = 0
+
+
+describe('Login-Page-Positive', () =>{
+    it('Login Title Page', () => {
+        cy.title().then(actualPageTitle => {
+            cy.title().should('eq',actualPageTitle)
+        });
+    })
+
+    it('Login Page URL', () => {
+        cy.url().then(actualURL => {
+            cy.url().should('eq', actualURL);
+        });
+    })
+
+
+
+    it('Login Page should have clickables', () => {
+        cy.get(loginpage_locators.submit_button)
+        .should('be.visible').contains(common.login_submitbutton_text);
+        cy.get(loginpage_locators.login_forgotpass_text_loc)
+        .should('be.visible').contains(common.login_forgotpass_text);
+        cy.get(loginpage_locators.login_createacc_text_loc)
+        .should('be.visible').contains(common.login_createacc_text);
+    })
+
+    it('Login using Admin account', () => {
+        cy.get(loginpage_locators.email_field).type(common.adminEmail)
+        cy.get(loginpage_locators.pass_field).type(common.adminPass)
+        cy.get(loginpage_locators.submit_button).click()
+        //------------------------------------------------------
+        cy.title().then(redictectToDashboard => {
+            cy.title().should('eq', redictectToDashboard)
+        })
+    })
+})
