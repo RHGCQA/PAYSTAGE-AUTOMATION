@@ -23,3 +23,16 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+// Clear session storage
+// Cypress.Commands.add('clearSessionStorage', () => {
+//     cy.window().then((window) => {
+//         window.sessionStorage.clear();
+//     });
+// });
+
+// Clear cookies, local storage, and session storage
+Cypress.Commands.add('clearCache', () => {
+    // cy.clearCookies();
+    cy.clearLocalStorage();
+    // cy.clearSessionStorage();
+});

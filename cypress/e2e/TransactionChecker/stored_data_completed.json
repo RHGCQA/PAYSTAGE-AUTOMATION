@@ -1,0 +1,30 @@
+{
+  "transaction_number": "2440896231",
+  "reference_no": "WD2024052972039",
+  "status": "completed",
+  "customer": {
+    "customer_number": "2463871397",
+    "first_name": "yuki",
+    "last_name": "kubota",
+    "email": "yk.06.09@icloud.com",
+    "mobile": "+819046397417",
+    "city": "Shinjuku Ku",
+    "country": "JP",
+    "state": "Tokyo To",
+    "zip": "1620806",
+    "address_line_1": "402, RitoruzuLAPiSkagurazaka, 49-2, Enokicho",
+    "address_line_2": "402, RitoruzuLAPiSkagurazaka, 49-2, Enokicho",
+    "full_name": "yuki kubota"
+  },
+  "details": {
+    "credit_amount": 500000,
+    "credit_currency": "JPY",
+    "debit_currency": "JPY",
+    "debit_amount": 500000,
+    "exchange_rate": 0,
+    "fee": 9000,
+    "method": "local_bank_transfer",
+    "total_amount": 509000,
+    "type": "withdrawal"
+  }
+}
