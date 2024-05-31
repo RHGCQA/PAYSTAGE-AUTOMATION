@@ -1,30 +1,30 @@
 {
-  "transaction_number": "2440896231",
-  "reference_no": "WD2024052972039",
+  "transaction_number": "2457584522",
+  "reference_no": "WD2024053011430",
   "status": "completed",
   "customer": {
-    "customer_number": "2463871397",
-    "first_name": "yuki",
-    "last_name": "kubota",
-    "email": "yk.06.09@icloud.com",
-    "mobile": "+819046397417",
-    "city": "Shinjuku Ku",
+    "customer_number": "2478217668",
+    "first_name": "hitoshi",
+    "last_name": "kichiya",
+    "email": "kicchide@gmail.com",
+    "mobile": "+818028271788",
+    "city": "Takadanobaba, Shinjuku-ku",
     "country": "JP",
-    "state": "Tokyo To",
-    "zip": "1620806",
-    "address_line_1": "402, RitoruzuLAPiSkagurazaka, 49-2, Enokicho",
-    "address_line_2": "402, RitoruzuLAPiSkagurazaka, 49-2, Enokicho",
-    "full_name": "yuki kubota"
+    "state": "Tokyo-to",
+    "zip": "1690075",
+    "address_line_1": "1-18-26 Royal Highness 102",
+    "address_line_2": "1-18-26 Royal Highness 102",
+    "full_name": "hitoshi kichiya"
   },
   "details": {
-    "credit_amount": 500000,
+    "credit_amount": 90650,
     "credit_currency": "JPY",
     "debit_currency": "JPY",
-    "debit_amount": 500000,
+    "debit_amount": 90650,
     "exchange_rate": 0,
-    "fee": 9000,
+    "fee": 1800,
     "method": "local_bank_transfer",
-    "total_amount": 509000,
+    "total_amount": 92450,
     "type": "withdrawal"
   }
 }

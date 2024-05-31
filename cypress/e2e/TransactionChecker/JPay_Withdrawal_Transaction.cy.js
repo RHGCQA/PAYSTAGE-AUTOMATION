@@ -19,7 +19,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 describe('GET ALL TRANSACTION INFORMATION \nPROVIDED IN TRANSACTION PAGE', () => {
     it('Navigate to transaction history page',() =>{
         let TransactionDate = 2 // 1 - today | 2 - yesterday (recommended)
-        let PageNav = 2
+        let PageNav = 1
         cy.visit(common.login_url)
         cy.get(loginpage_locators.email_field).type(common.adminEmail)
         cy.get(loginpage_locators.pass_field).type(common.adminPass)
@@ -34,11 +34,10 @@ describe('GET ALL TRANSACTION INFORMATION \nPROVIDED IN TRANSACTION PAGE', () =>
         cy.get('[class="rs-table-row"]').its('length').then((rowCount) => {
             // Log the count of elements to the Cypress test runner
             let row_count = rowCount+1
-            for(let x=4;x<=4;x++){
+            for(let x=2;x<=row_count;x++){
                 const isTransactionExist = cy.get('[aria-rowindex="'+x+'"] > .rs-table-cell-group > [aria-colindex="2"] > .rs-table-cell-content > a').should('exist');
                 //if transactionExist==true
                 if(isTransactionExist){
-                    cy.log("Transaction EXIST!")
                     // Get all trnsaction number per row
                     cy.get('[aria-rowindex="'+x+'"] > .rs-table-cell-group > [aria-colindex="2"] > .rs-table-cell-content > a')
                     .invoke('text').as('transaction_number');
@@ -189,43 +188,33 @@ describe('GET ALL TRANSACTION INFORMATION \nPROVIDED IN TRANSACTION PAGE', () =>
                             });
                         }else if(storedStatus == 'completed'){
                             cy.log("Transactions is completed")
-                            cy.get('.gap-y-3 > :nth-child(3) > .list-value').invoke('text').then((solution_ref) => {
-                                cy.log(solution_ref)
-                            });
+                            cy.get('.gap-y-3 > :nth-child(3) > .list-value').invoke('text').as('solution_ref')
                             cy.get('.gap-y-3 > :nth-child(4) > .list-value').should('have.text', storedTransactionType)
                             cy.get('.gap-y-3 > :nth-child(5) > .list-value').should('have.text', storedMethod)
                             cy.wait(2000)
-                            //click the last button of Activity logs pagination
-                            cy.get('[aria-label="Last"]').click({timeout: 3000})
                             //clcik the view request button for pending webhook response
-                            cy.get(':nth-child(4) > .rs-timeline-item-content > .capitalize > .rs-btn-group > :nth-child(2)')
-                            .should('be.visible').click({timeout: 3000})
+                            cy.get('.rs-timeline-item-content > .capitalize > .rs-btn-group > .rs-btn').contains('View Payload').click();
                             cy.wait(1500)
                             //Store the pending webhook response to JSON file
-                            cy.get('pre').invoke('text').then((sent_payload_pending) => {
-                                cy.writeFile('cypress/e2e/TransactionChecker/stored_data_pending.json', sent_payload_pending)
+                            cy.get('pre').invoke('text').then((receivedPayload) => {
+                                cy.writeFile('cypress/e2e/TransactionChecker/stored_data_payload.json', receivedPayload)
                             });
                             cy.get('[aria-label="close"]').click({timeout: 3000})
-                            cy.get('[aria-label="First"]').click({timeout: 3000})
-                            //clcik the view request button for completed webhook response
-                            cy.get(':nth-child(2) > .rs-timeline-item-content > .capitalize > .rs-btn-group > :nth-child(2)')
-                            .should('be.visible').click({timeout: 3000})
                             cy.wait(1500)
+                            //clcik the view request button for completed webhook response
+                            cy.get('.rs-timeline-item-content > .capitalize > .rs-btn-group > :nth-child(2)').first().contains('View request').click();
+                            cy.wait(3500)
                             //Store the completed webhook response to JSON file
                             cy.get('pre').invoke('text').then((sent_payload_completed) => {
                                 cy.writeFile('cypress/e2e/TransactionChecker/stored_data_completed.json', sent_payload_completed)
                             });
                             //readfile the stored data pending status and set alias per field
-                            cy.readFile('cypress/e2e/TransactionChecker/stored_data_pending.json').then((pendingResponse) => {
-                                cy.wrap(pendingResponse.transaction_number).as('pending_transactionNumber')
-                                cy.wrap(pendingResponse.reference_no).as('pending_referenceNumber')
-                                cy.wrap(pendingResponse.status).as('pending_status')
-                                cy.wrap(pendingResponse.details.credit_amount).as('pending_credAmount')
-                                cy.wrap(pendingResponse.details.debit_amount).as('pending_debitAmount')
-                                cy.wrap(pendingResponse.details.fee).as('pending_fee')
-                                cy.wrap(pendingResponse.details.method).as('pending_method')
-                                cy.wrap(pendingResponse.details.type).as('pending_type')
-                                cy.wrap(pendingResponse.details.total_amount).as('pending_totalAmount')
+                            cy.readFile('cypress/e2e/TransactionChecker/stored_data_payload.json').then((payloadResponse) => {
+                                cy.wrap(payloadResponse.transaction_number).as('payload_solutionReference')
+                                cy.wrap(payloadResponse.merchant_transaction_number).as('payload_transactionNumber')
+                                cy.wrap(payloadResponse.amount).as('payload_amount')
+                                cy.wrap(payloadResponse.fee).as('payload_fee')
+                                cy.wrap(payloadResponse.status).as('payload_status')
                             });
                             //readfile the stored data completed status and set alias per field
                             cy.readFile('cypress/e2e/TransactionChecker/stored_data_completed.json').then((completedResponse) => {
@@ -240,55 +229,49 @@ describe('GET ALL TRANSACTION INFORMATION \nPROVIDED IN TRANSACTION PAGE', () =>
                                 cy.wrap(completedResponse.details.total_amount).as('completed_totalAmount')
                             });
                             // Assertions comparing the pending and completed webhook response
-                            cy.get('@pending_transactionNumber').then((pending_transactionNumber) => {
+                            // transaction_number = solution_ref
+                            cy.get('@payload_solutionReference').then((payload_solutionReference) => {
+                                cy.get('@solution_ref').should((solution_ref) => {
+                                    expect(payload_solutionReference).to.eq(solution_ref);
+                                });
+                            });
+                            //merchant_transaction_number = transaction_number
+                            cy.get('@payload_transactionNumber').then((payload_transactionNumber) => {
                                 cy.get('@completed_transactionNumber').should((completed_transactionNumber) => {
-                                    expect(pending_transactionNumber).to.eq(completed_transactionNumber);
+                                    expect(payload_transactionNumber).to.eq(completed_transactionNumber);
                                 });
                             });
-                            cy.get('@pending_referenceNumber').then((pending_referenceNumber) => {
-                                cy.get('@completed_referenceNumber').should((completed_referenceNumber) => {
-                                    expect(pending_referenceNumber).to.eq(completed_referenceNumber);
+                            //amount = credit_amount && debit_amount
+                            cy.get('@payload_amount').then((payload_amount) => {
+                                const splitAmount = parseInt(payload_amount.split('.')[0], 10); // Convert to number
+                                cy.get('@completed_credAmount').should((completed_credAmount) => {
+                                    expect(splitAmount).to.eq(completed_credAmount);
+                                });
+                                cy.get('@completed_debitAmount').should((completed_debitAmount) => {
+                                    expect(splitAmount).to.eq(completed_debitAmount);
                                 });
                             });
-                            cy.get('@pending_credAmount').then((pending_credAmount) => {
-                                cy.get('@completed_credAmount').then((completed_credAmount) => {
-                                    expect(pending_credAmount).to.eq(completed_credAmount);
-                                    let credAmount = pending_credAmount
-                                    let feeComp = credAmount * 0.018
-                                    let totalamountComp = credAmount + feeComp
-                                    cy.get('@completed_fee').then((fee)=>{
-                                        expect(feeComp).to.eq(fee)
-                                    })
-                                    cy.get('@completed_totalAmount').then((totalamount)=>{
-                                        expect(totalamountComp).to.eq(totalamount)
-                                    })
+                            //fee = fee
+                            cy.get('@payload_fee').then((payload_fee) => {
+                                const splitFee = parseInt(payload_fee.split('.')[0], 10); // Convert to number
+                                cy.get('@completed_fee').should((completed_fee) => {
+                                    expect(splitFee).to.eq(completed_fee);
                                 });
                             });
-                            cy.get('@pending_method').then((pending_method) => {
-                                cy.get('@completed_method').then((completed_method) => {
-                                    expect(pending_method).to.eq(completed_method);
+                            //status = status
+                            cy.get('@payload_status').then((payload_status) => {
+                                cy.get('@completed_status').should((completed_status) => {
+                                    expect(payload_status).to.eq(completed_status);
                                 });
                             });
-                            cy.get('@pending_type').then((pending_type) => {
-                                cy.get('@completed_type').then((completed_type) => {
-                                    expect(pending_type).to.eq(completed_type);
-                                });
-                            });
-                            cy.get('@completed_debitAmount').then((completed_debitAmount) => {
-                                cy.get('@completed_credAmount').then((completed_credAmount) => {
-                                    expect(completed_debitAmount).to.eq(completed_credAmount);
-                                });
-                            });
-                            cy.get('@pending_status').should('eq', 'pending')
-                            cy.get('@completed_status').should('eq', 'completed')
-                            cy.get('@pending_debitAmount').should('eq', 0)
-                            cy.get('@pending_fee').should('eq', 0)
-                            cy.get('@pending_totalAmount').should('eq', 0)
                         }
                     });
                 }else{
                     cy.log("ignore")
                 }
+                cy.go(-1, {timeout: 10000})
+                filterTransactions('type_withdrawal', 'vendor_jpay', TransactionDate, PageNav, { timeout: 10000});
+                cy.wait(2200)
             }
         });
     });

@@ -1,0 +1,19 @@
+{
+  "transaction_number": "JW6822655316",
+  "merchant_transaction_number": "2457584522",
+  "bank_name": "三井住友銀行",
+  "bank_code": "0009",
+  "branch_name": "仙台支店",
+  "branch_code": "311",
+  "account_type": "普通口座",
+  "account": "2080724",
+  "name": "ｷﾁﾔ ﾋﾄｼ",
+  "application_date": "2024-05-30 14:36:36",
+  "processing_date": "2024-05-31 08:16:18",
+  "amount": "90650.00",
+  "fee": "1800.00",
+  "status": "completed",
+  "reason": null,
+  "signature": "04221d8a90b0ba09622afa897d04f934bd9c9e5180e982d0bbf04aeafd3e403d",
+  "callback_url": "http://prod-api-integrate.paystage.net/webhooks/jpay/withdrawal"
+}
