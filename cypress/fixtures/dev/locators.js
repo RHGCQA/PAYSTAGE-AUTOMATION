@@ -86,7 +86,10 @@ const sidebarmenu_locators = {
     type_dropdown: ":nth-child(2) > .w-full > .rs-picker-toggle",
     type_withdrawal: '[data-key="withdrawal"] > .rs-picker-select-menu-item',
     vendor_dropdown: ":nth-child(4) > .w-full > .rs-picker-toggle",
-    vendor_jpay: '[data-key="jpay"] > .rs-picker-select-menu-item'
+    vendor_jpay: '[data-key="jpay"] > .rs-picker-select-menu-item',
+    // Admin submodule
+    admin_module: ":nth-child(10) > .rs-dropdown-toggle",
+    default_fee_module: ".cursor-pointer.rs-dropdown-expand > .rs-dropdown-menu > :nth-child(3) > .rs-dropdown-item"
 }
 
 const transactionpage_locators = {

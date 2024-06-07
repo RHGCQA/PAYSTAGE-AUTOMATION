@@ -33,7 +33,12 @@ const common = {
     accounts_url: "https://develop.paystage.net/accounts",
     accounts_pagetitle: "Accounts - Paystage",
     accountsURLpagination: "https://develop.paystage.net/accounts/get?limit=20&page=1&type=&integration_status=&kyc_status=",
-    accountsURLAdminPermissions: "https://develop.paystage.net/users/2366313061/permissions"
+    accountsURLAdminPermissions: "https://develop.paystage.net/users/2366313061/permissions",
+
+    //default fee
+    requestURLtransaction: "https://develop.paystage.net/a/default/exempted-accounts/pearlpay?defaultType=transaction_fee&type=deposit",
+    requestURLsettlement: "https://develop.paystage.net/a/default/exempted-accounts/pearlpay?defaultType=transaction_fee&type=settlement",
+    requestDefaultFee: "https://develop.paystage.net/a/default/fee-settings"
 }
 
 module.exports = {common}

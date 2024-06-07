@@ -1,30 +1,30 @@
 {
-  "transaction_number": "2457584522",
-  "reference_no": "WD2024053011430",
+  "transaction_number": "2430462748",
+  "reference_no": "WD2024060628614",
   "status": "completed",
   "customer": {
-    "customer_number": "2478217668",
-    "first_name": "hitoshi",
-    "last_name": "kichiya",
-    "email": "kicchide@gmail.com",
-    "mobile": "+818028271788",
-    "city": "Takadanobaba, Shinjuku-ku",
+    "customer_number": "2430044873",
+    "first_name": "karin",
+    "last_name": "sato",
+    "email": "kari24722@gmail.com",
+    "mobile": "+818088207505",
+    "city": "Koshigaya Shi",
     "country": "JP",
-    "state": "Tokyo-to",
-    "zip": "1690075",
-    "address_line_1": "1-18-26 Royal Highness 102",
-    "address_line_2": "1-18-26 Royal Highness 102",
-    "full_name": "hitoshi kichiya"
+    "state": "Saitama Ken",
+    "zip": "3430045",
+    "address_line_1": "311-9, Shimomakuri",
+    "address_line_2": "311-9, Shimomakuri",
+    "full_name": "karin sato"
   },
   "details": {
-    "credit_amount": 90650,
+    "credit_amount": 151267,
     "credit_currency": "JPY",
     "debit_currency": "JPY",
-    "debit_amount": 90650,
+    "debit_amount": 151267,
     "exchange_rate": 0,
-    "fee": 1800,
+    "fee": 2723,
     "method": "local_bank_transfer",
-    "total_amount": 92450,
+    "total_amount": 153990,
     "type": "withdrawal"
   }
 }
