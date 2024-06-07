@@ -1,0 +1,19 @@
+{
+  "transaction_number": "JW5970578719",
+  "merchant_transaction_number": "2430462748",
+  "bank_name": "楽天銀行",
+  "bank_code": "0036",
+  "branch_name": "ノエル支店",
+  "branch_code": "246",
+  "account_type": "普通口座",
+  "account": "1648021",
+  "name": "ｻﾄｳ ｶﾘﾝ",
+  "application_date": "2024-06-06 00:00:53",
+  "processing_date": "2024-06-06 11:43:43",
+  "amount": "151267.00",
+  "fee": "2723.00",
+  "status": "completed",
+  "reason": null,
+  "signature": "da7164175ecc8b7baa30f5a0a895e2321737231607edb056b3fd89e7528fa88b",
+  "callback_url": "http://prod-api-integrate.paystage.net/webhooks/jpay/withdrawal"
+}

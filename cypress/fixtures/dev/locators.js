@@ -80,8 +80,29 @@ const accountspage_locators = {
     accounts_gotosearch: ".rs-pagination-group-skip"
 }
 
+const sidebarmenu_locators = {
+    transaction_module: ":nth-child(5) > .rs-dropdown-toggle",
+    transaction_submodule: ".rs-dropdown-expand > .rs-dropdown-menu > :nth-child(1) > .rs-dropdown-item",
+    type_dropdown: ":nth-child(2) > .w-full > .rs-picker-toggle",
+    type_withdrawal: '[data-key="withdrawal"] > .rs-picker-select-menu-item',
+    vendor_dropdown: ":nth-child(4) > .w-full > .rs-picker-toggle",
+    vendor_jpay: '[data-key="jpay"] > .rs-picker-select-menu-item',
+    // Admin submodule
+    admin_module: ":nth-child(10) > .rs-dropdown-toggle",
+    default_fee_module: ".cursor-pointer.rs-dropdown-expand > .rs-dropdown-menu > :nth-child(3) > .rs-dropdown-item"
+}
+
+const transactionpage_locators = {
+    type_dropdown: ":nth-child(2) > .w-full > .rs-picker-toggle",
+    type_withdrawal: '[data-key="withdrawal"] > .rs-picker-select-menu-item',
+    vendor_dropdown: ":nth-child(4) > .w-full > .rs-picker-toggle",
+    vendor_jpay: '[data-key="jpay"] > .rs-picker-select-menu-item'
+    //a[normalize-space()='2471171455']
+}
+
+
 module.exports = {loginpage_locators, dashboardpage_locators, merchantspage_locators,
-                    accountspage_locators}
+                    accountspage_locators, sidebarmenu_locators, transactionpage_locators}
 
 
 
