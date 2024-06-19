@@ -1,7 +1,7 @@
 import { common } from "../../fixtures/prd/common";
 import { loginpage_locators } from "../../fixtures/prd/locators";
 import { sidebarmenu_locators } from "../../fixtures/prd/locators";
-import { filterTransactions } from './filterTransactions'; // Import the filterTransactions function
+import { filterJpayWithdrawalTransactions } from './filterTransactions'; // Import the filterTransactions function
 // npx cypress run --spec "cypress/e2e/PageNavigation/*"
 // npx cypress run --spec "cypress/e2e/TransactionChecker/JPay_Withdrawal_Transaction.cy.js"
 // npx cypress open
@@ -29,7 +29,7 @@ describe('GET ALL TRANSACTION INFORMATION \nPROVIDED IN TRANSACTION PAGE', () =>
         cy.get(sidebarmenu_locators.transaction_module).should('be.visible', { timeout: 10000}).click()
         cy.get(sidebarmenu_locators.transaction_submodule).click()
         // Filter transactions
-        filterTransactions('type_withdrawal', 'vendor_jpay', TransactionDate, PageNav, { timeout: 10000});
+        filterJpayWithdrawalTransactions('type_withdrawal', 'vendor_jpay', TransactionDate, PageNav, { timeout: 10000});
         cy.wait(2200)
         cy.get('[class="rs-table-row"]').its('length').then((rowCount) => {
             // Log the count of elements to the Cypress test runner
@@ -187,7 +187,6 @@ describe('GET ALL TRANSACTION INFORMATION \nPROVIDED IN TRANSACTION PAGE', () =>
                                 }
                             });
                         }else if(storedStatus == 'completed'){
-                            cy.log("Transactions is completed")
                             cy.get('.gap-y-3 > :nth-child(3) > .list-value').invoke('text').as('solution_ref')
                             cy.get('.gap-y-3 > :nth-child(4) > .list-value').should('have.text', storedTransactionType)
                             cy.get('.gap-y-3 > :nth-child(5) > .list-value').should('have.text', storedMethod)
@@ -270,7 +269,7 @@ describe('GET ALL TRANSACTION INFORMATION \nPROVIDED IN TRANSACTION PAGE', () =>
                     cy.log("ignore")
                 }
                 cy.go(-1, {timeout: 10000})
-                filterTransactions('type_withdrawal', 'vendor_jpay', TransactionDate, PageNav, { timeout: 10000});
+                filterJpayWithdrawalTransactions('type_withdrawal', 'vendor_jpay', TransactionDate, PageNav, { timeout: 10000});
                 cy.wait(2200)
             }
         });

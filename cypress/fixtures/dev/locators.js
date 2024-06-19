@@ -95,8 +95,15 @@ const sidebarmenu_locators = {
 const transactionpage_locators = {
     type_dropdown: ":nth-child(2) > .w-full > .rs-picker-toggle",
     type_withdrawal: '[data-key="withdrawal"] > .rs-picker-select-menu-item',
+    type_deposit: '[data-key="deposit"] > .rs-picker-select-menu-item',
+
     vendor_dropdown: ":nth-child(4) > .w-full > .rs-picker-toggle",
-    vendor_jpay: '[data-key="jpay"] > .rs-picker-select-menu-item'
+    vendor_jpay: '[data-key="jpay"] > .rs-picker-select-menu-item',
+    vendor_allbank: '[data-key="all_bank"] > .rs-picker-select-menu-item',
+
+    solution_dropdown: ":nth-child(5) > .w-full > .rs-picker-toggle",
+    solution_QRPH: '[data-key="qrph"] > .rs-picker-select-menu-item'
+    
     //a[normalize-space()='2471171455']
 }
 
