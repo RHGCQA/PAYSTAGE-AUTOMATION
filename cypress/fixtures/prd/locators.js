@@ -89,24 +89,57 @@ const sidebarmenu_locators = {
     vendor_jpay: '[data-key="jpay"] > .rs-picker-select-menu-item'
 }
 
-const transactionpage_locators = {
+const transactionpage_locators ={
+    tablerow: '[class="rs-table-row"]',
+    locator_base1: '[aria-rowindex="',
+    locator_base2: '"] > .rs-table-cell-group > ',
+    exist: "[aria-colindex='2'] > .rs-table-cell-content > a",
+    transaction_number: '[aria-colindex="2"] > .rs-table-cell-content > a',
+    merchant_number: '[aria-colindex="3"] > .rs-table-cell-content',
+    merchant_name: '[aria-colindex="5"] > .rs-table-cell-content',
+    customer_name: '.lowercase > .rs-table-cell-content > span',
+    type: '[aria-colindex="7"] > .rs-table-cell-content',
+    method: '[aria-colindex="8"] > .rs-table-cell-content > span',
+    vendor: '[aria-colindex="9"] > .rs-table-cell-content',
+    solution: '[aria-colindex="10"] > .rs-table-cell-content',
+    status: '[aria-colindex="11"] > .rs-table-cell-content > span',
+    amount: '[aria-colindex="12"] > .rs-table-cell-content',
+    net_amount: '[aria-colindex="15"] > .rs-table-cell-content',
+    date_dropdown: ':nth-child(8) > .w-full > .rs-picker-toggle > .rs-stack > [style="flex-grow: 1; overflow: hidden;"] > .rs-picker-toggle-textbox',
+    date_filter1: '.rs-picker-toolbar-ranges > :nth-child(',
+    date_filter2: ") > .rs-btn",
     type_dropdown: ":nth-child(2) > .w-full > .rs-picker-toggle",
     type_withdrawal: '[data-key="withdrawal"] > .rs-picker-select-menu-item',
     type_deposit: '[data-key="deposit"] > .rs-picker-select-menu-item',
-
     vendor_dropdown: ":nth-child(4) > .w-full > .rs-picker-toggle",
     vendor_jpay: '[data-key="jpay"] > .rs-picker-select-menu-item',
     vendor_allbank: '[data-key="all_bank"] > .rs-picker-select-menu-item',
-
     solution_dropdown: ":nth-child(5) > .w-full > .rs-picker-toggle",
-    solution_QRPH: '[data-key="qrph"] > .rs-picker-select-menu-item'
-    
-    //a[normalize-space()='2471171455']
+    solution_QRPH: '[data-key="qrph"] > .rs-picker-select-menu-item',
+    page_navigation_holder1: '[aria-label=',
+    page_navigation_holder2: ']'
+}
+
+const transactiondetails_locators ={
+    merchant_number: '.gap-y-3 > :nth-child(1) > .list-value',
+    status: '.gap-y-3 > :nth-child(2) > .list-value',
+    type: '.gap-y-3 > :nth-child(4) > .list-value',
+    merchant_name: ':nth-child(2) > .rs-panel-body > .flex > :nth-child(2) > .list-value',
+    customer_name: ':nth-child(3) > .rs-panel-body > .flex > :nth-child(1) > .list-value',
+    solution_ref: '.gap-y-3 > :nth-child(3) > .list-value',
+    mobile: '.flex > :nth-child(3) > .list-value',
+    view_payload: '.rs-timeline-item-content > .capitalize > .rs-btn-group > .rs-btn',
+    close_modal: '[aria-label="close"]',
+    mobdal_content: 'pre',
+    view_request: '.rs-timeline-item-content > .capitalize > .rs-btn-group > :nth-child(2)'
+}
+
+const data_response_holder ={
+    rwPayload: 'cypress/e2e/TransactionChecker/stored_data_payload.json',
+    rwCompleted: 'cypress/e2e/TransactionChecker/stored_data_completed.json',
 }
 
 module.exports = {loginpage_locators, dashboardpage_locators, merchantspage_locators,
-                    accountspage_locators, sidebarmenu_locators, transactionpage_locators}
-
-
-
+                    accountspage_locators, sidebarmenu_locators, transactionpage_locators,
+                    transactiondetails_locators, data_response_holder}
 // module.exports = {dashboardpage_locators}
