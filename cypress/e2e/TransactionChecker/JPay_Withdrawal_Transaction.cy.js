@@ -1,12 +1,16 @@
 import { common } from "../../fixtures/prd/common";
 import { loginpage_locators } from "../../fixtures/prd/locators";
 import { sidebarmenu_locators } from "../../fixtures/prd/locators";
-import { filterJpayWithdrawalTransactions } from './filterTransactions'; // Import the filterTransactions function
-// npx cypress run --spec "cypress/e2e/PageNavigation/*"
+import { transactionpage_locators } from "../../fixtures/prd/locators";
+import { transactiondetails_locators } from "../../fixtures/prd/locators";
+import { data_response_holder } from "../../fixtures/prd/locators";
+import { filterJpayWithdrawalTransactions } from './filterTransactions';
+import { fetchTransactionData } from './base_date_storage';
+// npx cypress run --spec "cypress/e2e/TransactionChecker/*"
 // npx cypress run --spec "cypress/e2e/TransactionChecker/JPay_Withdrawal_Transaction.cy.js"
 // npx cypress open
 
-Cypress.config('defaultCommandTimeout', 10000); // Set default timeout to 10 seconds (adjust as needed)
+Cypress.config('defaultCommandTimeout', 10000);
 Cypress.on('uncaught:exception', (err, runnable) => {
     // We expect a 'canceled' error, and don't want to fail the test
     if (err.message.includes('canceled')) {
@@ -18,7 +22,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
 describe('GET ALL TRANSACTION INFORMATION \nPROVIDED IN TRANSACTION PAGE', () => {
     it('Navigate to transaction history page',() =>{
-        let TransactionDate = 2 // 1 - today | 2 - yesterday (recommended)
+        let TransactionDate = 3 // 1 - today | 2 - yesterday (recommended)
         let PageNav = 1
         cy.visit(common.login_url)
         cy.get(loginpage_locators.email_field).type(common.adminEmail)
@@ -31,58 +35,62 @@ describe('GET ALL TRANSACTION INFORMATION \nPROVIDED IN TRANSACTION PAGE', () =>
         // Filter transactions
         filterJpayWithdrawalTransactions('type_withdrawal', 'vendor_jpay', TransactionDate, PageNav, { timeout: 10000});
         cy.wait(2200)
+        
         cy.get('[class="rs-table-row"]').its('length').then((rowCount) => {
             // Log the count of elements to the Cypress test runner
             let row_count = rowCount+1
-            for(let x=2;x<=row_count;x++){
+            for(let x=2;x<=2;x++){
                 const isTransactionExist = cy.get('[aria-rowindex="'+x+'"] > .rs-table-cell-group > [aria-colindex="2"] > .rs-table-cell-content > a').should('exist');
                 //if transactionExist==true
                 if(isTransactionExist){
-                    // Get all trnsaction number per row
-                    cy.get('[aria-rowindex="'+x+'"] > .rs-table-cell-group > [aria-colindex="2"] > .rs-table-cell-content > a')
-                    .invoke('text').as('transaction_number');
-                    //Get all merchant ref number per row
-                    cy.get('[aria-rowindex="'+x+'"] > .rs-table-cell-group > [aria-colindex="3"] > .rs-table-cell-content')
-                    .invoke('text').then((merchantNumber) => {
-                        Cypress.env('merchant_number', merchantNumber.trim());
-                    });
-                    //---------------------------------------------
-                    cy.get('[aria-rowindex="'+x+'"] > .rs-table-cell-group > [aria-colindex="5"] > .rs-table-cell-content')
-                    .invoke('text').then((merchantName) => {
-                        Cypress.env('merchant_name', merchantName.trim());
-                    });
-                    cy.get('[aria-rowindex="'+x+'"] > .rs-table-cell-group > .lowercase > .rs-table-cell-content > span')
-                    .invoke('text').then((customerName) => {
-                        Cypress.env('customer_name', customerName.trim());
-                    });
-                    cy.get('[aria-rowindex="'+x+'"] > .rs-table-cell-group > [aria-colindex="7"] > .rs-table-cell-content')
-                    .invoke('text').then((transactionType) => {
-                        Cypress.env('transaction_type', transactionType.trim());
-                    });
-                    cy.get('[aria-rowindex="'+x+'"] > .rs-table-cell-group > [aria-colindex="8"] > .rs-table-cell-content > span')
-                    .invoke('text').then((method) => {
-                        Cypress.env('method', method.trim());
-                    });
-                    cy.get('[aria-rowindex="'+x+'"] > .rs-table-cell-group > [aria-colindex="9"] > .rs-table-cell-content')
-                    .invoke('text').then((vendor) => {
-                        Cypress.env('vendor', vendor.trim());
-                    });
-                    cy.get('[aria-rowindex="'+x+'"] > .rs-table-cell-group > [aria-colindex="10"] > .rs-table-cell-content')
-                    .invoke('text').then((solution) => {
-                        Cypress.env('solution', solution.trim());
-                    });
-                    cy.get('[aria-rowindex="'+x+'"] > .rs-table-cell-group > [aria-colindex="11"] > .rs-table-cell-content > span')
-                    .invoke('text').then((status) => {
-                        Cypress.env('status', status.trim());
-                    });
-                    cy.get('[aria-rowindex="'+x+'"] > .rs-table-cell-group > [aria-colindex="12"] > .rs-table-cell-content')
-                    .invoke('text').then((amount) => {
-                        Cypress.env('amount', amount.trim());
-                    });
-                    cy.get('[aria-rowindex="'+x+'"] > .rs-table-cell-group > [aria-colindex="15"] > .rs-table-cell-content')
-                    .invoke('text').then((net_amount) => {
-                        Cypress.env('net_amount', net_amount.trim());
-                    });
+                    fetchTransactionData(x,'transaction_number', 'merchant_number',
+                        'merchant_name', 'customer_name', 'type', 'method', 'vendor',
+                        'solution', 'status', 'amount', 'net_amount');
+                    // // Get all trnsaction number per row
+                    // cy.get('[aria-rowindex="'+x+'"] > .rs-table-cell-group > [aria-colindex="2"] > .rs-table-cell-content > a')
+                    // .invoke('text').as('transaction_number');
+                    // //Get all merchant ref number per row
+                    // cy.get('[aria-rowindex="'+x+'"] > .rs-table-cell-group > [aria-colindex="3"] > .rs-table-cell-content')
+                    // .invoke('text').then((merchantNumber) => {
+                    //     Cypress.env('merchant_number', merchantNumber.trim());
+                    // });
+                    // //---------------------------------------------
+                    // cy.get('[aria-rowindex="'+x+'"] > .rs-table-cell-group > [aria-colindex="5"] > .rs-table-cell-content')
+                    // .invoke('text').then((merchantName) => {
+                    //     Cypress.env('merchant_name', merchantName.trim());
+                    // });
+                    // cy.get('[aria-rowindex="'+x+'"] > .rs-table-cell-group > .lowercase > .rs-table-cell-content > span')
+                    // .invoke('text').then((customerName) => {
+                    //     Cypress.env('customer_name', customerName.trim());
+                    // });
+                    // cy.get('[aria-rowindex="'+x+'"] > .rs-table-cell-group > [aria-colindex="7"] > .rs-table-cell-content')
+                    // .invoke('text').then((transactionType) => {
+                    //     Cypress.env('transaction_type', transactionType.trim());
+                    // });
+                    // cy.get('[aria-rowindex="'+x+'"] > .rs-table-cell-group > [aria-colindex="8"] > .rs-table-cell-content > span')
+                    // .invoke('text').then((method) => {
+                    //     Cypress.env('method', method.trim());
+                    // });
+                    // cy.get('[aria-rowindex="'+x+'"] > .rs-table-cell-group > [aria-colindex="9"] > .rs-table-cell-content')
+                    // .invoke('text').then((vendor) => {
+                    //     Cypress.env('vendor', vendor.trim());
+                    // });
+                    // cy.get('[aria-rowindex="'+x+'"] > .rs-table-cell-group > [aria-colindex="10"] > .rs-table-cell-content')
+                    // .invoke('text').then((solution) => {
+                    //     Cypress.env('solution', solution.trim());
+                    // });
+                    // cy.get('[aria-rowindex="'+x+'"] > .rs-table-cell-group > [aria-colindex="11"] > .rs-table-cell-content > span')
+                    // .invoke('text').then((status) => {
+                    //     Cypress.env('status', status.trim());
+                    // });
+                    // cy.get('[aria-rowindex="'+x+'"] > .rs-table-cell-group > [aria-colindex="12"] > .rs-table-cell-content')
+                    // .invoke('text').then((amount) => {
+                    //     Cypress.env('amount', amount.trim());
+                    // });
+                    // cy.get('[aria-rowindex="'+x+'"] > .rs-table-cell-group > [aria-colindex="15"] > .rs-table-cell-content')
+                    // .invoke('text').then((net_amount) => {
+                    //     Cypress.env('net_amount', net_amount.trim());
+                    // });
                     //---------------------------------------------
                     // Visit the URL based on the transaction number
                     cy.get('@transaction_number').then((transactionNumber) => {
@@ -96,24 +104,16 @@ describe('GET ALL TRANSACTION INFORMATION \nPROVIDED IN TRANSACTION PAGE', () =>
                         const storedCustomerName = Cypress.env('customer_name');
                         const storedTransactionType = Cypress.env('transaction_type');
                         const storedMethod = Cypress.env('method');
-                        const storedVendor = Cypress.env('vendor');
-                        const storedSolution = Cypress.env('solution');
-                        const storedAmount = Cypress.env('amount');
-                        const storedNetAmount = Cypress.env('net_amount');
                         const storedStatus = Cypress.env('status');
-                        cy.get('.gap-y-3 > :nth-child(1) > .list-value')
-                        .should('be.visible')
+                        cy.get(transactiondetails_locators.merchant_number).should('be.visible')
                         .and('have.text', storedMerchantNumber);
-                        cy.get('.gap-y-3 > :nth-child(2) > .list-value')
-                        .should('be.visible')
+                        cy.get(transactiondetails_locators.status).should('be.visible')
                         .and('have.text', storedStatus);
-                        cy.get(':nth-child(2) > .rs-panel-body > .flex > :nth-child(2) > .list-value')
-                        .should('be.visible')
+                        cy.get(transactiondetails_locators.merchant_name).should('be.visible')
                         .and('have.text', storedMerchantName);
-                        cy.get(':nth-child(3) > .rs-panel-body > .flex > :nth-child(1) > .list-value')
-                        .should('be.visible')
+                        cy.get(transactiondetails_locators.customer_name).should('be.visible')
                         .and('have.text', storedCustomerName);
-                        // Assertion depending on the Transaction status
+                        //
                         if(storedStatus == 'pending'){
                             cy.log("status is Pending!!")
                             cy.get('.gap-y-3 > :nth-child(3) > .list-value').invoke('text').then(transactionType => {

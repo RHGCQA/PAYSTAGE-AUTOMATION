@@ -39,7 +39,7 @@ describe('GET ALL TRANSACTION INFORMATION \nPROVIDED IN TRANSACTION PAGE', () =>
         cy.get(transactionpage_locators.tablerow).its('length').then((rowCount) => {
             // Log the count of elements to the Cypress test runner
             let row_count = rowCount+1
-            for(let x=2;x<=2;x++){
+            for(let x=2;x<=row_count;x++){
                 const isTransactionExist = cy.get(transactionpage_locators.locator_base1+x+
                     transactionpage_locators.locator_base2+transactionpage_locators
                     .exist).should('exist');
@@ -117,16 +117,24 @@ describe('GET ALL TRANSACTION INFORMATION \nPROVIDED IN TRANSACTION PAGE', () =>
                             let fee_rounded = Math.ceil(fee_holder);
                             if (fee_rounded < 10){
                                 cy.get('@callback_fee').should('eq', 10);
+                                cy.get('@callback_total_amount').should((callback_total_amount) => {
+                                    let total_amount = amount - 10;
+                                    expect(callback_total_amount).to.eq(total_amount);
+                                });
                             }else {
                                 cy.get('@callback_fee').should('eq', fee_rounded);
+                                cy.get('@callback_total_amount').should((callback_total_amount) => {
+                                    let total_amount = amount - fee_rounded;
+                                    expect(callback_total_amount).to.eq(total_amount);
+                                });
                             }
                             cy.get('@callback_credit_amount').should((callback_credit_amount) => {
                                 expect(payload_amount).to.eq(callback_credit_amount);
                             });
-                            cy.get('@callback_total_amount').should((callback_total_amount) => {
-                                let total_amount = amount - fee_rounded;
-                                expect(callback_total_amount).to.eq(total_amount);
-                            });
+                            // cy.get('@callback_total_amount').should((callback_total_amount) => {
+                            //     let total_amount = amount - fee_rounded;
+                            //     expect(callback_total_amount).to.eq(total_amount);
+                            // });
                         });
                         cy.get('@payload_transaction_number').then((payload_transaction_number) => {
                             cy.get('@callback_transaction_number').should((callback_transaction_number) => {
