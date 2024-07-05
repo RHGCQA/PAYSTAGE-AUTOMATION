@@ -16,4 +16,4 @@ jobs:
         run: npm install
 
       - name: Run Cypress tests
-        run: npx cypress run --headless --browser chrome --spec "cypress/e2e/TransactionChecker/QRPH_Deposit_Transaction.cy.js
+        run: npx cypress run --headless --browser chrome --spec "cypress/e2e/TransactionChecker/QRPH_Deposit_Transaction.cy.js"
