@@ -22,7 +22,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
 describe('GET ALL TRANSACTION INFORMATION \nPROVIDED IN TRANSACTION PAGE', () => {
     it('Navigate to transaction history page',() =>{
-        let TransactionDate = 3 // 1 - today | 2 - yesterday (recommended)
+        let TransactionDate = 2 // 1 - today | 2 - yesterday (recommended)
         let PageNav = 1
         cy.visit(common.login_url)
         cy.get(loginpage_locators.email_field).type(common.adminEmail)
@@ -39,7 +39,7 @@ describe('GET ALL TRANSACTION INFORMATION \nPROVIDED IN TRANSACTION PAGE', () =>
         cy.get('[class="rs-table-row"]').its('length').then((rowCount) => {
             // Log the count of elements to the Cypress test runner
             let row_count = rowCount+1
-            for(let x=2;x<=2;x++){
+            for(let x=2;x<=row_count;x++){
                 const isTransactionExist = cy.get('[aria-rowindex="'+x+'"] > .rs-table-cell-group > [aria-colindex="2"] > .rs-table-cell-content > a').should('exist');
                 //if transactionExist==true
                 if(isTransactionExist){

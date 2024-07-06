@@ -66,4 +66,7 @@ export const fetchTransactionData =
         .invoke('text').then((net_amount) => {
         Cypress.env('net_amount', net_amount.trim());
     });
+
+    cy.wait(3000) //temp load
+    cy.log("Fetch")
 };
