@@ -3,8 +3,8 @@ name: QRPH Live Checker
 on: [push, pull_request]
 
 jobs:
-  cypress-run:
-    runs-on: ubuntu-latest
+  QRPH-Live-Chcker:
+    runs-on: self-hosted
 
     steps:
       - name: Checkout code
