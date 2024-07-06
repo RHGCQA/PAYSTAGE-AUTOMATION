@@ -1,30 +1,28 @@
 {
-  "transaction_number": "2440169802",
-  "reference_no": "WD2024061908761",
+  "transaction_number": "2485572401",
+  "reference_no": "189237683",
   "status": "completed",
+  "checkout_url": "https://ppi-ph.com/payments/GjYd-TYe1v0",
   "customer": {
-    "customer_number": "2450419340",
-    "first_name": "kurumi",
-    "last_name": "tamao",
-    "email": "kuru.3719@gmail.com",
-    "mobile": "+818046221005",
-    "city": "Kashiwa-Shi",
-    "country": "JP",
-    "state": "Chiba-Ken",
-    "zip": "2770941",
-    "address_line_1": "1567-35, Takayanagi",
-    "address_line_2": "1567-35, Takayanagi",
-    "full_name": "kurumi tamao"
+    "customer_number": "2413047413",
+    "first_name": "john lexter",
+    "last_name": "palmiano",
+    "email": "princesskissespadilla@gmail.com",
+    "mobile": "+639777266272",
+    "city": null,
+    "country": "PH",
+    "state": null,
+    "zip": null,
+    "address_line_1": null,
+    "address_line_2": null,
+    "full_name": "john lexter palmiano"
   },
   "details": {
-    "credit_amount": 429171,
-    "credit_currency": "JPY",
-    "debit_currency": "JPY",
-    "debit_amount": 429171,
-    "exchange_rate": 0,
-    "fee": 7726,
-    "method": "local_bank_transfer",
-    "total_amount": 436897,
-    "type": "withdrawal"
+    "credit_amount": 2000,
+    "credit_currency": "PHP",
+    "fee": 40,
+    "method": "payment_provider",
+    "total_amount": 1960,
+    "type": "deposit"
   }
 }

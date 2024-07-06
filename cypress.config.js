@@ -16,4 +16,6 @@ module.exports = defineConfig({
   viewportWidth: 1920,
   viewportHeight: 1580,
 
+  experimentalMemoryManagement: true, // Add this line
+  numTestsKeptInMemory: 0 // Optional, adjust as needed
 });
