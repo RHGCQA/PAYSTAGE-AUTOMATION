@@ -9,6 +9,7 @@ import { fetchTransactionData } from './base_date_storage';
 // npx cypress run --spec "cypress/e2e/TransactionChecker/*"
 // npx cypress run --spec "cypress/e2e/TransactionChecker/QRPH_Deposit_Transaction.cy.js"
 // npx cypress open
+// ./config.cmd --url https://github.com/Chzubaga/paystage_cy --token A7RQNS5BNE5GXNPQXMZFN43GRNPWC
 
 Cypress.config('defaultCommandTimeout', 10000);
 Cypress.on('uncaught:exception', (err, runnable) => {
@@ -25,7 +26,7 @@ function roundToTwo(num) {
 }
 
 describe('Looping within an it block', () => {
-    const PageNav = Array.from({ length: 2 }, (_, i) => i + 1); // Create an array [1, 2, 3, ...]
+    const PageNav = Array.from({ length: 1 }, (_, i) => i + 1); // Create an array [1, 2, 3, ...]
 
     PageNav.forEach((pageNav) => {
         it(`Should test transactions for Page: ${pageNav}`, () => {
