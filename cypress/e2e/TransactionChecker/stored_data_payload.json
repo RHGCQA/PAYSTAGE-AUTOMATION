@@ -1,19 +1,5 @@
 {
-  "transaction_number": "JW0419882248",
-  "merchant_transaction_number": "2455483000",
-  "bank_name": "みずほ銀行",
-  "bank_code": "0001",
-  "branch_name": "ひばりが丘支店",
-  "branch_code": "262",
-  "account_type": "普通口座",
-  "account": "3002600",
-  "name": "ｶｻﾊﾗ ｾｲﾅ",
-  "application_date": "2024-07-17 21:05:35",
-  "processing_date": "2024-07-18 11:23:46",
-  "amount": "28760.00",
-  "fee": "1800.00",
-  "status": "completed",
-  "reason": null,
-  "signature": "171efe0cb98c18e1e23d8a391448c095789190ac52261d70e5a923617da4f5ac",
-  "callback_url": "http://prod-api-integrate.paystage.net/webhooks/jpay/withdrawal"
+  "success": false,
+  "message": "Result will generate a negative value",
+  "error_code": "E-WITHDRAWAL-005"
 }
