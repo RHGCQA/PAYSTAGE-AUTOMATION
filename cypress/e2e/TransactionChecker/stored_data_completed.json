@@ -1,28 +1,30 @@
 {
-  "transaction_number": "2460271914",
-  "reference_no": "189494104",
+  "transaction_number": "2455483000",
+  "reference_no": "WD2024071793802",
   "status": "completed",
-  "checkout_url": "https://ppi-ph.com/payments/rsnsvWEgimA",
   "customer": {
-    "customer_number": "2462928870",
-    "first_name": "joel",
-    "last_name": "saceda",
-    "email": "joelsaceda@gmail.com",
-    "mobile": "+639286488835",
-    "city": null,
-    "country": "PH",
-    "state": null,
-    "zip": null,
-    "address_line_1": null,
-    "address_line_2": null,
-    "full_name": "joel saceda"
+    "customer_number": "2414597691",
+    "first_name": "seina",
+    "last_name": "kasahara",
+    "email": "seinaseina.g.a3@gmail.com",
+    "mobile": "+818034825663",
+    "city": "Koto-Ku",
+    "country": "JP",
+    "state": "Tokyo-To",
+    "zip": "1350046",
+    "address_line_1": "2-2-16saitoukata, Botan",
+    "address_line_2": "2-2-16saitoukata, Botan",
+    "full_name": "seina kasahara"
   },
   "details": {
-    "credit_amount": 587,
-    "credit_currency": "PHP",
-    "fee": 11.74,
-    "method": "payment_provider",
-    "total_amount": 575.26,
-    "type": "deposit"
+    "credit_amount": 28760,
+    "credit_currency": "JPY",
+    "debit_currency": "JPY",
+    "debit_amount": 28760,
+    "exchange_rate": 0,
+    "fee": 1800,
+    "method": "local_bank_transfer",
+    "total_amount": 30560,
+    "type": "withdrawal"
   }
 }
