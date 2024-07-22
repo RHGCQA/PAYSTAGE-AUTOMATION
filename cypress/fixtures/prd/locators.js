@@ -132,6 +132,7 @@ const transactionpage_locators ={
     status_dropdown: ':nth-child(6) > .w-full > .rs-picker-toggle > .rs-stack > [style="flex-grow: 1; overflow: hidden;"]',
     status_pending: '[data-key="pending"] > .rs-picker-select-menu-item',
     status_completed: '[data-key="completed"] > .rs-picker-select-menu-item',
+    status_failed: '[data-key="failed"] > .rs-picker-select-menu-item',
 
     page_navigation_holder1: '[aria-label=',
     page_navigation_holder2: ']',
@@ -154,7 +155,11 @@ const transactiondetails_locators ={
     view_payload: '.rs-timeline-item-content > .capitalize > .rs-btn-group > .rs-btn',
     close_modal: '[aria-label="close"]',
     mobdal_content: 'pre',
-    view_request: '.rs-timeline-item-content > .capitalize > .rs-btn-group > :nth-child(2)'
+    view_request: '.rs-timeline-item-content > .capitalize > .rs-btn-group > :nth-child(2)',
+
+    type_PF: '.gap-y-3 > :nth-child(3) > .list-value',
+    view_payload_PF: ':nth-child(3) > .rs-timeline-item-content > .capitalize > .rs-btn-group > :nth-child(2)',
+    view_request_PF: ':nth-child(2) > .rs-timeline-item-content > .capitalize > .rs-btn-group > :nth-child(2)'
 }
 
 const data_response_holder ={

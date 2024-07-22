@@ -1,30 +1,30 @@
 {
-  "transaction_number": "2455483000",
-  "reference_no": "WD2024071793802",
-  "status": "completed",
+  "transaction_number": "2471728590",
+  "reference_no": "191901265",
+  "status": "failed",
   "customer": {
-    "customer_number": "2414597691",
-    "first_name": "seina",
-    "last_name": "kasahara",
-    "email": "seinaseina.g.a3@gmail.com",
-    "mobile": "+818034825663",
-    "city": "Koto-Ku",
+    "customer_number": "2430740920",
+    "first_name": "学",
+    "last_name": "大和田",
+    "email": "y.-7._.7-.s@i.softbank.jp",
+    "mobile": "+819070648447",
+    "city": "Sumida-ku",
     "country": "JP",
-    "state": "Tokyo-To",
-    "zip": "1350046",
-    "address_line_1": "2-2-16saitoukata, Botan",
-    "address_line_2": "2-2-16saitoukata, Botan",
-    "full_name": "seina kasahara"
+    "state": "Tokyo",
+    "zip": "217-1009",
+    "address_line_1": "Oshiage",
+    "address_line_2": "11",
+    "full_name": "学 大和田"
   },
   "details": {
-    "credit_amount": 28760,
+    "credit_amount": 250000,
     "credit_currency": "JPY",
     "debit_currency": "JPY",
-    "debit_amount": 28760,
+    "debit_amount": 0,
     "exchange_rate": 0,
-    "fee": 1800,
+    "fee": 0,
     "method": "local_bank_transfer",
-    "total_amount": 30560,
+    "total_amount": 0,
     "type": "withdrawal"
   }
 }
