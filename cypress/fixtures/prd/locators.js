@@ -94,6 +94,8 @@ const transactionpage_locators ={
     locator_base1: '[aria-rowindex="',
     locator_base2: '"] > .rs-table-cell-group > ',
     exist: "[aria-colindex='2'] > .rs-table-cell-content > a",
+
+    // specific transaction row details
     transaction_number: '[aria-colindex="2"] > .rs-table-cell-content > a',
     merchant_number: '[aria-colindex="3"] > .rs-table-cell-content',
     merchant_name: '[aria-colindex="5"] > .rs-table-cell-content',
@@ -105,19 +107,40 @@ const transactionpage_locators ={
     status: '[aria-colindex="11"] > .rs-table-cell-content > span',
     amount: '[aria-colindex="12"] > .rs-table-cell-content',
     net_amount: '[aria-colindex="15"] > .rs-table-cell-content',
+
+    // filter date
     date_dropdown: ':nth-child(8) > .w-full > .rs-picker-toggle > .rs-stack > [style="flex-grow: 1; overflow: hidden;"] > .rs-picker-toggle-textbox',
     date_filter1: '.rs-picker-toolbar-ranges > :nth-child(',
     date_filter2: ") > .rs-btn",
+
+    // filter transaction type
     type_dropdown: ":nth-child(2) > .w-full > .rs-picker-toggle",
     type_withdrawal: '[data-key="withdrawal"] > .rs-picker-select-menu-item',
     type_deposit: '[data-key="deposit"] > .rs-picker-select-menu-item',
+
+    // filter vendor
     vendor_dropdown: ":nth-child(4) > .w-full > .rs-picker-toggle",
     vendor_jpay: '[data-key="jpay"] > .rs-picker-select-menu-item',
     vendor_allbank: '[data-key="all_bank"] > .rs-picker-select-menu-item',
+
+    // filter solution
     solution_dropdown: ":nth-child(5) > .w-full > .rs-picker-toggle",
+    solution_lbtJapan: '[data-key="local_bank_japan"] > .rs-picker-select-menu-item',
     solution_QRPH: '[data-key="qrph"] > .rs-picker-select-menu-item',
+
+    // filter status
+    status_dropdown: ':nth-child(6) > .w-full > .rs-picker-toggle > .rs-stack > [style="flex-grow: 1; overflow: hidden;"]',
+    status_pending: '[data-key="pending"] > .rs-picker-select-menu-item',
+    status_completed: '[data-key="completed"] > .rs-picker-select-menu-item',
+
     page_navigation_holder1: '[aria-label=',
-    page_navigation_holder2: ']'
+    page_navigation_holder2: ']',
+
+    transaction_gotosearch: '.rs-pagination-group-skip > :nth-child(2) > .rs-input',
+
+    filterDateTemp1: '[aria-label="',
+    filterDateTemp2: ' Jul 2024"] > .rs-calendar-table-cell-content > .rs-calendar-table-cell-day',
+    filterOkButton: '.rs-picker-toolbar-right > .rs-btn'
 }
 
 const transactiondetails_locators ={

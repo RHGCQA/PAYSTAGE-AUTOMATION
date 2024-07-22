@@ -5,7 +5,6 @@ import { transactionpage_locators } from "../../fixtures/prd/locators";
 import { transactiondetails_locators } from "../../fixtures/prd/locators";
 import { data_response_holder } from "../../fixtures/prd/locators";
 import { filterTransactions } from './filterTransactions';
-import { testFilter } from './filterTransactions';
 import { fetchTransactionData } from './base_date_storage';
 // npx cypress run --spec "cypress/e2e/TransactionChecker/*"
 // npx cypress run --spec "cypress/e2e/TransactionChecker/JPay_Deposit_Transaction.cy.js"
@@ -46,9 +45,7 @@ describe('Looping within an it block', () => {
             cy.get(sidebarmenu_locators.transaction_submodule).click();
 
             // Filter transactions
-            // filterTransactions('type_withdrawal', 'vendor_jpay', 'solution_lbtJapan', TransactionDate, pageNav, { timeout: 10000 });
-            // cy.wait(2500);
-            testFilter('type_withdrawal', 'vendor_jpay', 'status_pending', { timeout: 10000 });
+            filterTransactions('type_deposit', 'vendor_jpay', 'solution_lbtJapan', TransactionDate, pageNav, { timeout: 10000 });
             cy.wait(2500);
 
             cy.get(transactionpage_locators.tablerow).its('length').then((rowCount) => {
@@ -67,10 +64,8 @@ describe('Looping within an it block', () => {
                         cy.log("ignore");
                     }
                     cy.go('back', { timeout: 20000 });
-                    // filterTransactions('type_withdrawal', 'vendor_jpay', 'solution_lbtJapan', TransactionDate, pageNav, { timeout: 10000 });
-                    // cy.wait(3500);
-                    testFilter('type_withdrawal', 'vendor_jpay', 'status_pending', { timeout: 10000 });
-                    cy.wait(2500);
+                    filterTransactions('type_deposit', 'vendor_jpay', 'solution_lbtJapan', TransactionDate, pageNav, { timeout: 10000 });
+                    cy.wait(3500);
                 }
                 cy.log(rowCount)
             });

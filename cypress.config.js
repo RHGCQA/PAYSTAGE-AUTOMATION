@@ -6,13 +6,14 @@ module.exports = defineConfig({
       // implement node event listeners here
     },
   },
-  // reporter: "./node_modules/@kanidjar/cypress-qatouch-reporter",
+  // reporter: "./node_modules/cypress-qatouch-reporter",
   // reporterOptions: {
-  //    "domain" : "rhgc",
-  //    "apiToken": "0ce462087c5c18c7576c2397405e3fc7570f76f5daecaf8c3d7e1d4eff30c37b",
-  //    "projectKey": "2aMB",
-  //    "testRunKey": "WM7M"
+  //   "domain" : "rhgc",
+  //   "apiToken": "7ea772854e8bfb90e92cbdcf321b554cf54de05b565120e9cf31a7de3bbc1975",
+  //   "projectKey": "2aMB",
+  //   "testRunKey": "Dbe6Z"
   // },
+  projectId: "99db26",
   viewportWidth: 1920,
   viewportHeight: 1580,
 
