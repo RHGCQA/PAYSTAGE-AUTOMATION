@@ -5,10 +5,9 @@ import { transactionpage_locators } from "../../fixtures/prd/locators";
 import { transactiondetails_locators } from "../../fixtures/prd/locators";
 import { data_response_holder } from "../../fixtures/prd/locators";
 import { filterTransactions } from './filterTransactions';
-import { testFilter } from './filterTransactions';
 import { fetchTransactionData } from './base_date_storage';
 // npx cypress run --spec "cypress/e2e/TransactionChecker/*"
-// npx cypress run --spec "cypress/e2e/TransactionChecker/JPay_Deposit_Transaction.cy.js"
+// npx cypress run --spec "cypress/e2e/TransactionChecker/JPay_Withdrawal_Transaction.cy.js"
 // npx cypress open
 // ./config.cmd --url https://github.com/Chzubaga/paystage_cy --token A7RQNS5BNE5GXNPQXMZFN43GRNPWC
 
@@ -27,12 +26,14 @@ function roundToTwo(num) {
 }
 
 describe('Looping within an it block', () => {
+    const sheetId = '1vd-uTQXSUgrAc5hoE_du2Zxvw6toE9gEWpjpWxcdwIk'; // Your Google Sheet ID
     let pagenumberStart = 1 //default is page 1
     let pageLength = 1 //total number of pages
     const PageNav = Array.from({ length: pageLength}, (_, i) => i + pagenumberStart);
     PageNav.forEach((pageNav) => {
+        const sheetName = "JPAY WITHDRAWAL LIVE TRANSACTIONS";
         it(`Should test transactions for Page: ${pageNav}`, () => {
-            let TransactionDate = 17; // 1 - today | 2 - yesterday (recommended)
+            let TransactionDate = 12; // 1 - today | 2 - yesterday (recommended)
 
             // Login
             cy.visit(common.login_url);
@@ -47,13 +48,14 @@ describe('Looping within an it block', () => {
 
             // Filter transactions
             filterTransactions('type_withdrawal', 'vendor_jpay', 'solution_lbtJapan', TransactionDate, pageNav, { timeout: 10000 });
-            cy.wait(2500);
-            // testFilter('type_withdrawal', 'vendor_jpay', 'status_failed', { timeout: 10000 });
-            // cy.wait(2500);
+            cy.wait(2850);
 
             cy.get(transactionpage_locators.tablerow).its('length').then((rowCount) => {
-                let row_count = rowCount + 1;
-                for (let x = 10; x <= 10; x++) {
+                // const randomRow = Math.floor(Math.random() * rowCount) + 2;
+                let rowcount = rowCount + 1;
+                let y = pageNav - 1
+                let z = y * 20
+                for (let x = 2; x <= rowcount; x++) {
                     const isTransactionExist = cy.get(`${transactionpage_locators.locator_base1}${x}${transactionpage_locators.locator_base2}${transactionpage_locators.exist}`)
                         .should('exist', { timeout: 20000 });
                     if (isTransactionExist) {
@@ -61,7 +63,11 @@ describe('Looping within an it block', () => {
                         'customer_name', 'type', 'method', 'vendor', 'solution', 'status', 'amount', 'net_amount');
                         
                         cy.get('@transaction_number').then((transactionNumber) => {
-                        validateTransactionDetails(transactionNumber);
+                            let w = x+z;
+                            validateTransactionDetails(transactionNumber);
+                            writeInGoogleSheet(sheetId, w, sheetName);
+                            validateWebhookResponses(sheetId, sheetName, w);
+                            cy.task('log', transactionNumber);
                         });
                     } else {
                         cy.log("ignore");
@@ -69,8 +75,6 @@ describe('Looping within an it block', () => {
                     cy.go('back', { timeout: 20000 });
                     filterTransactions('type_withdrawal', 'vendor_jpay', 'solution_lbtJapan', TransactionDate, pageNav, { timeout: 10000 });
                     cy.wait(3500);
-                    // testFilter('type_withdrawal', 'vendor_jpay', 'status_failed', { timeout: 10000 });
-                    // cy.wait(2500);
                 }
                 cy.log(rowCount)
             });
@@ -144,7 +148,10 @@ const validateTransactionDetails = (transactionNumber) => {
     });
 };
 
-const validateWebhookResponses = () => {
+const validateWebhookResponses = (sheetId, sheetName, sheetRow) => {
+    const resultCol = sheetName+"!I"; // The cell where you want to write data
+    let resultCell = resultCol+sheetRow
+    try{
     cy.readFile(data_response_holder.rwPayload).then((payloadResponse) => {
         cy.wrap(payloadResponse.transaction_number).as('payload_transaction_number');
         cy.wrap(payloadResponse.merchant_transaction_number).as('payload_merchant_transaction_number');
@@ -210,6 +217,11 @@ const validateWebhookResponses = () => {
             });     
         });
     });
+        cy.task('writeToGoogleSheet', { sheetId, cell: resultCell, value: "PASSED" })
+    } catch(error){
+        cy.log("error")
+        cy.task('writeToGoogleSheet', { sheetId, cell: resultCell, value: "FAILED" })
+    } 
 };
 
 const validateWebhookResponses_PF = () => {
@@ -231,3 +243,58 @@ const validateWebhookResponses_PF = () => {
         }
     });
 };
+
+const writeInGoogleSheet = (sheetId, sheetRow, sheetName) => {
+    const storedMerchantName = Cypress.env('merchant_name');
+    const storedCustomerName = Cypress.env('customer_name');
+    cy.readFile(data_response_holder.rwCompleted).then((callbackResponse) => {
+        cy.wrap(callbackResponse.transaction_number).as('callback_transaction_number');
+        cy.wrap(callbackResponse.details.credit_amount).as('callback_credit_amount');
+        cy.wrap(callbackResponse.details.fee).as('callback_fee');
+        cy.wrap(callbackResponse.details.total_amount).as('callback_total_amount');
+        cy.wrap(callbackResponse.status).as('callback_status');
+    });
+
+    const pageCol = sheetName+"!A"; // The cell where you want to write data
+    let pageCell = pageCol+sheetRow
+    cy.task('writeToGoogleSheet', { sheetId, cell: pageCell, value: sheetRow-1 })
+    
+    cy.get('@callback_transaction_number').then((transaction_number) => {
+        const transCol = sheetName+"!B"; // The cell where you want to write data
+        let transCell = transCol+sheetRow
+        cy.task('writeToGoogleSheet', { sheetId, cell: transCell, value: transaction_number })
+    });
+
+    const mNameCol = sheetName+"!C"; // The cell where you want to write data
+    let mNameCell = mNameCol+sheetRow
+    cy.task('writeToGoogleSheet', { sheetId, cell: mNameCell, value: storedMerchantName })
+
+    const customerCol = sheetName+"!D"; // The cell where you want to write data
+    let customerCell = customerCol+sheetRow
+    cy.task('writeToGoogleSheet', { sheetId, cell: customerCell, value: storedCustomerName })
+
+    cy.get('@callback_credit_amount').then((amount) => {
+        const amountCol = sheetName+"!E"; // The cell where you want to write data
+        let amountCell = amountCol+sheetRow
+        cy.task('writeToGoogleSheet', { sheetId, cell: amountCell, value: amount })
+    });
+
+    cy.get('@callback_fee').then((fee) => {
+        const feeCol = sheetName+"!F"; // The cell where you want to write data
+        let feeCell = feeCol+sheetRow
+        cy.task('writeToGoogleSheet', { sheetId, cell: feeCell, value: fee })
+    });
+
+    cy.get('@callback_total_amount').then((net_amount) => {
+        const netAmountCol = sheetName+"!G"; // The cell where you want to write data
+        let netAmountCell = netAmountCol+sheetRow
+        cy.task('writeToGoogleSheet', { sheetId, cell: netAmountCell, value: net_amount })
+    });
+
+    cy.get('@callback_status').then((status) => {
+        const statusCol = sheetName+"!H"; // The cell where you want to write data
+        let statusCell = statusCol+sheetRow
+        cy.task('writeToGoogleSheet', { sheetId, cell: statusCell, value: status })
+    });
+    
+}

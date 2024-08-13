@@ -61,17 +61,20 @@ const accountspage_locators = {
     //Elements
     accounts_export_btn: ".rs-flex-box-grid > :nth-child(2) > .rs-btn > div",
     accounts_createaccount_btn: ".mb-4 > :nth-child(2) > .rs-btn",
-    accounts_search_filter: ".rs-form > :nth-child(1)",
+    accounts_search_filter: "#search",
     accounts_type_filter: ".rs-form > :nth-child(2)",
     accounts_kyc_filter: ".rs-form > :nth-child(3)",
     accounts_integration_filter: ".rs-form > :nth-child(4)",
 
-    accounts_account_number: ".rs-table-cell-group > :nth-child(1) > .rs-table-cell > .rs-table-cell-content",
-    accounts_merchant_name: ":nth-child(2) > .rs-table-cell > .rs-table-cell-content",
-    accounts_type: ":nth-child(3) > .rs-table-cell > .rs-table-cell-content",
-    accounts_kyc: ":nth-child(4) > .rs-table-cell > .rs-table-cell-content",
-    accounts_integration: ":nth-child(5) > .rs-table-cell > .rs-table-cell-content",
-    accounts_registered_date: ":nth-child(6) > .rs-table-cell > .rs-table-cell-content",
+    th_account_number: ".rs-table-cell-group > :nth-child(1) > .rs-table-cell > .rs-table-cell-content",
+    th_merchant_name: ":nth-child(2) > .rs-table-cell > .rs-table-cell-content",
+    th_type: ":nth-child(3) > .rs-table-cell > .rs-table-cell-content",
+    th_kyc: ":nth-child(4) > .rs-table-cell > .rs-table-cell-content",
+    th_integration: ":nth-child(5) > .rs-table-cell > .rs-table-cell-content",
+    th_registered_date: ":nth-child(6) > .rs-table-cell > .rs-table-cell-content",
+
+    account_number: ".rs-table-cell-content > a",
+    account_number_magicporo: "[aria-rowindex='3'] > .rs-table-cell-group > .rs-table-cell-first > .rs-table-cell-content > a",
     
     accounts_pagination: ".rs-pagination",
     accounts_pagination_next: '[aria-label="Next"]',
@@ -80,13 +83,37 @@ const accountspage_locators = {
     accounts_gotosearch: ".rs-pagination-group-skip"
 }
 
+const accountdetails_locators = {
+    general_tab: ".my-3 > :nth-child(1)",
+    balances_tab: ".my-3 > :nth-child(2)",
+    settlement_tab: ".my-3 > :nth-child(3)",
+    transactions_tab: ".my-3 > :nth-child(4)",
+    customers_tab: ".my-3 > :nth-child(5)",
+    settings_tab: ".my-3 > :nth-child(6)",
+    fees_tab: ".my-3 > :nth-child(7)",
+
+    customer_row: ".rs-table-cell-group > .rs-table-cell-first > .rs-table-cell-content",
+    locator_base1: '[aria-rowindex="',
+    locator_base2: '"] > .rs-table-cell-group > ',
+    exist: '[aria-colindex="2"] > .rs-table-cell-content > a',
+
+    // specific customer row details
+    account_number: ".rs-table-cell-first > .rs-table-cell-content > a",
+    customer_number: '[aria-colindex="2"] > .rs-table-cell-content > a',
+    customer_name: '[aria-colindex="3"] > .rs-table-cell-content',
+    email_address: '[aria-colindex="4"] > .rs-table-cell-content',
+    mobile: '[aria-colindex="5"] > .rs-table-cell-content',
+    city: '[aria-colindex="6"] > .rs-table-cell-content',
+    country: '[aria-colindex="7"] > .rs-table-cell-content',
+
+    customers_gotosearch: '.rs-pagination-group-skip > :nth-child(2) > .rs-input'
+}
+
 const sidebarmenu_locators = {
     transaction_module: ":nth-child(5) > .rs-dropdown-toggle",
     transaction_submodule: ".rs-dropdown-expand > .rs-dropdown-menu > :nth-child(1) > .rs-dropdown-item",
-    type_dropdown: ":nth-child(2) > .w-full > .rs-picker-toggle",
-    type_withdrawal: '[data-key="withdrawal"] > .rs-picker-select-menu-item',
-    vendor_dropdown: ":nth-child(4) > .w-full > .rs-picker-toggle",
-    vendor_jpay: '[data-key="jpay"] > .rs-picker-select-menu-item'
+    accounts_module: "[href='https://portal.paystage.net/accounts']",
+    customers_module: "[href='https://portal.paystage.net/customers']"
 }
 
 const transactionpage_locators ={
@@ -140,7 +167,7 @@ const transactionpage_locators ={
     transaction_gotosearch: '.rs-pagination-group-skip > :nth-child(2) > .rs-input',
 
     filterDateTemp1: '[aria-label="',
-    filterDateTemp2: ' Jul 2024"] > .rs-calendar-table-cell-content > .rs-calendar-table-cell-day',
+    filterDateTemp2: ' Aug 2024"] > .rs-calendar-table-cell-content > .rs-calendar-table-cell-day',
     filterOkButton: '.rs-picker-toolbar-right > .rs-btn'
 }
 
@@ -162,12 +189,17 @@ const transactiondetails_locators ={
     view_request_PF: ':nth-child(2) > .rs-timeline-item-content > .capitalize > .rs-btn-group > :nth-child(2)'
 }
 
+const customers_locators ={
+    customers_gotosearch: '.rs-pagination-group-skip > :nth-child(2) > .rs-input',
+    status: '.gap-y-3 > :nth-child(2) > .list-value'
+}
+
 const data_response_holder ={
     rwPayload: 'cypress/e2e/TransactionChecker/stored_data_payload.json',
     rwCompleted: 'cypress/e2e/TransactionChecker/stored_data_completed.json',
 }
 
 module.exports = {loginpage_locators, dashboardpage_locators, merchantspage_locators,
-                    accountspage_locators, sidebarmenu_locators, transactionpage_locators,
-                    transactiondetails_locators, data_response_holder}
+                    accountspage_locators, accountdetails_locators, sidebarmenu_locators, transactionpage_locators,
+                    transactiondetails_locators, customers_locators, data_response_holder}
 // module.exports = {dashboardpage_locators}

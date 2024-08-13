@@ -26,14 +26,17 @@ function roundToTwo(num) {
 }
 
 describe('Looping within an it block', () => {
-    let pagenumberStart = 16 //default is page 1
+    const sheetId = '1vd-uTQXSUgrAc5hoE_du2Zxvw6toE9gEWpjpWxcdwIk'; // Your Google Sheet ID
+    let pagenumberStart = 1 //default is page 1
     let pageLength = 12 //total number of pages
     const PageNav = Array.from({ length: pageLength}, (_, i) => i + pagenumberStart);
     PageNav.forEach((pageNav) => {
+        const sheetName = "QPRH LIVE TRANSACTIONS";
+        const pageCol = sheetName+"!A"; // The cell where you want to write data
         it(`Should test transactions for Page: ${pageNav}`, () => {
             cy.resetQATouchStatuses('d192aw', 'untested')
-            let TransactionDate = 2; // 1 - today | 2 - yesterday (recommended)
 
+            let TransactionDate = 12; // 1 - today | 2 - yesterday (recommended)
             try {
                 // Login
                 cy.visit(common.login_url);
@@ -41,6 +44,9 @@ describe('Looping within an it block', () => {
                 cy.get(loginpage_locators.pass_field).type(common.adminPass);
                 cy.get(loginpage_locators.submit_button).click();
                 cy.updateQATouchTestResult('RpM25D', 'passed'); //login valid credential
+                console.log('Login Admin Account')
+                console.log('email:'+common.adminEmail)
+                console.log('pass:'+common.adminPass)
             } catch (error){
                 cy.updateQATouchTestResult('RpM25D', 'failed'); //login valid credential
             }
@@ -51,10 +57,14 @@ describe('Looping within an it block', () => {
                 cy.get(sidebarmenu_locators.transaction_submodule).click();
                 // Filter transactions
                 filterTransactions('type_deposit', 'vendor_allbank', 'solution_QRPH', TransactionDate, pageNav, { timeout: 10000 });
-                cy.wait(2500);
+                cy.wait(2850);
                 cy.get(transactionpage_locators.tablerow).its('length').then((rowCount) => {
-                    let row_count = rowCount + 1;
-                    for (let x = 2; x <= row_count; x++) {
+                    // const randomRow = Math.floor(Math.random() * rowCount) + 2;
+                    let rowcount = rowCount+1;
+                    let y = pageNav - 1
+                    let z = y * 20
+                    for (let x=2; x <=rowcount; x++) {
+                        let pageCell = pageCol+x
                         const isTransactionExist = cy.get(`${transactionpage_locators.locator_base1}${x}${transactionpage_locators.locator_base2}${transactionpage_locators.exist}`)
                             .should('exist', { timeout: 20000 });
                         if (isTransactionExist) {
@@ -62,14 +72,18 @@ describe('Looping within an it block', () => {
                             'customer_name', 'type', 'method', 'vendor', 'solution', 'status', 'amount', 'net_amount');
                             
                             cy.get('@transaction_number').then((transactionNumber) => {
-                            validateTransactionDetails(transactionNumber);
+                                let w = x+z;
+                                validateTransactionDetails(transactionNumber);
+                                writeInGoogleSheet(sheetId, w, sheetName);
+                                validateWebhookResponses(sheetId, sheetName, w);
+                                cy.task('log', transactionNumber);
                             });
                         } else {
                             cy.log("ignore");
                         }
                         cy.go('back', { timeout: 20000 });
                         filterTransactions('type_deposit', 'vendor_allbank', 'solution_QRPH', TransactionDate, pageNav, { timeout: 10000 });
-                        cy.wait(3500);
+                        cy.wait(3000);
                     }
                 });
                 cy.updateQATouchTestResult('d192aw', 'passed'); //transaction page navigation
@@ -117,8 +131,6 @@ const validateTransactionDetails = (transactionNumber) => {
             cy.get(transactiondetails_locators.mobdal_content).invoke('text').then((sent_payload_completed) => {
                 cy.writeFile(data_response_holder.rwCompleted, sent_payload_completed);
             });
-
-            validateWebhookResponses();
         });
         cy.updateQATouchTestResult('xzaK05', 'passed'); //transaction details page navigation
     } catch (error){
@@ -126,7 +138,9 @@ const validateTransactionDetails = (transactionNumber) => {
     }
 };
 
-const validateWebhookResponses = () => {
+const validateWebhookResponses = (sheetId, sheetName, sheetRow) => {
+    const resultCol = sheetName+"!I"; // The cell where you want to write data
+    let resultCell = resultCol+sheetRow
     try{
         cy.readFile(data_response_holder.rwPayload).then((payloadResponse) => {
             cy.wrap(payloadResponse.amount).as('payload_amount');
@@ -151,7 +165,6 @@ const validateWebhookResponses = () => {
         // Add your assertions here
         cy.get('@payload_amount').then((payload_amount) => {
             let amount = parseInt(payload_amount);
-
             // Assume you have a variable determining the type of element
             const merchant_name = Cypress.env('merchant_name') // This could be any condition based on your test
 
@@ -269,9 +282,64 @@ const validateWebhookResponses = () => {
             });
         });
         cy.updateQATouchTestResult('VVa25B', 'passed'); //transaction details activity logs
+        cy.task('writeToGoogleSheet', { sheetId, cell: resultCell, value: "PASSED" })
     } catch(error){
         cy.updateQATouchTestResult('VVa25B', 'failed'); //transaction details activity logs
+        cy.task('writeToGoogleSheet', { sheetId, cell: resultCell, value: "FAILED" })
     }
 };
 
+const writeInGoogleSheet = (sheetId, sheetRow, sheetName) => {
+    const storedMerchantName = Cypress.env('merchant_name');
+    const storedCustomerName = Cypress.env('customer_name');
+    cy.readFile(data_response_holder.rwCompleted).then((callbackResponse) => {
+        cy.wrap(callbackResponse.transaction_number).as('callback_transaction_number');
+        cy.wrap(callbackResponse.details.credit_amount).as('callback_credit_amount');
+        cy.wrap(callbackResponse.details.fee).as('callback_fee');
+        cy.wrap(callbackResponse.details.total_amount).as('callback_total_amount');
+        cy.wrap(callbackResponse.status).as('callback_status');
+    });
 
+    const pageCol = sheetName+"!A"; // The cell where you want to write data
+    let pageCell = pageCol+sheetRow
+    cy.task('writeToGoogleSheet', { sheetId, cell: pageCell, value: sheetRow-1 })
+
+    cy.get('@callback_transaction_number').then((transaction_number) => {
+        const transCol = sheetName+"!B"; // The cell where you want to write data
+        let transCell = transCol+sheetRow
+        cy.task('writeToGoogleSheet', { sheetId, cell: transCell, value: transaction_number })
+    });
+
+    const mNameCol = sheetName+"!C"; // The cell where you want to write data
+    let mNameCell = mNameCol+sheetRow
+    cy.task('writeToGoogleSheet', { sheetId, cell: mNameCell, value: storedMerchantName })
+
+    const customerCol = sheetName+"!D"; // The cell where you want to write data
+    let customerCell = customerCol+sheetRow
+    cy.task('writeToGoogleSheet', { sheetId, cell: customerCell, value: storedCustomerName })
+
+    cy.get('@callback_credit_amount').then((amount) => {
+        const amountCol = sheetName+"!E"; // The cell where you want to write data
+        let amountCell = amountCol+sheetRow
+        cy.task('writeToGoogleSheet', { sheetId, cell: amountCell, value: amount })
+    });
+
+    cy.get('@callback_fee').then((fee) => {
+        const feeCol = sheetName+"!F"; // The cell where you want to write data
+        let feeCell = feeCol+sheetRow
+        cy.task('writeToGoogleSheet', { sheetId, cell: feeCell, value: fee })
+    });
+
+    cy.get('@callback_total_amount').then((net_amount) => {
+        const netAmountCol = sheetName+"!G"; // The cell where you want to write data
+        let netAmountCell = netAmountCol+sheetRow
+        cy.task('writeToGoogleSheet', { sheetId, cell: netAmountCell, value: net_amount })
+    });
+
+    cy.get('@callback_status').then((status) => {
+        const statusCol = sheetName+"!H"; // The cell where you want to write data
+        let statusCell = statusCol+sheetRow
+        cy.task('writeToGoogleSheet', { sheetId, cell: statusCell, value: status })
+    });
+    
+}

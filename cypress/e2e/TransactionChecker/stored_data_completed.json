@@ -1,4 +1,5 @@
 {
+<<<<<<< Updated upstream
   "transaction_number": "2461731286",
   "reference_no": "198219355",
   "status": "completed",
@@ -23,6 +24,32 @@
     "fee": 800,
     "method": "payment_provider",
     "total_amount": 39200,
+=======
+  "transaction_number": "2426135212",
+  "reference_no": "2091007059",
+  "status": "failed",
+  "checkout_url": "https://ppi-ph.com/payments/oiQPyClIQ4I",
+  "customer": {
+    "customer_number": "2476640760",
+    "first_name": "kevin",
+    "last_name": "zamora",
+    "email": "kevinjohndz14@gmail.com",
+    "mobile": "+639682287530",
+    "city": "Makati City",
+    "country": "PH",
+    "state": "NCR",
+    "zip": "1208",
+    "address_line_1": "Block 96, Lot 29, 1208, Makati City, PHILIPPINES",
+    "address_line_2": null,
+    "full_name": "kevin zamora"
+  },
+  "details": {
+    "credit_amount": 500,
+    "credit_currency": "PHP",
+    "fee": 13.75,
+    "method": "payment_provider",
+    "total_amount": 486.25,
+>>>>>>> Stashed changes
     "type": "deposit"
   }
 }

@@ -14,8 +14,16 @@ export const filterJpayWithdrawalTransactions = (transactionType, vendorType, da
     cy.get(transactionpage_locators.date_dropdown).click({timeout: 10000});
     cy.wait(2000)
     // select date
-    cy.get(transactionpage_locators.date_filter1+dateFilter+transactionpage_locators.date_filter2).click({timeout: 10000});
-    cy.wait(3250)
+    cy.get(transactionpage_locators.filterDateTemp1 + dateFilter + transactionpage_locators.filterDateTemp2)
+    .click({ timeout: 10000 })
+    .wait(500)
+    cy.get(".rs-calendar-table-cell-selected > .rs-calendar-table-cell-content > .rs-calendar-table-cell-day")
+    .click({ timeout: 10000 })
+    .wait(3000);
+    // click ok
+    cy.get(transactionpage_locators.filterOkButton)
+    .click({timeout: 10000});
+    cy.wait(3000)
     cy.get(transactionpage_locators.page_navigation_holder1+pagenav+transactionpage_locators.page_navigation_holder2).click({timeout: 10000})
     cy.wait(3000)
 };
@@ -39,10 +47,16 @@ export const filterTransactions = (transactionType, vendorType, solution, dateFi
     .click({timeout: 10000});
     cy.wait(3000)
     // select date
-    cy.get(transactionpage_locators.filterDateTemp1+dateFilter+
-        transactionpage_locators.filterDateTemp2).click({timeout: 10000});
-    cy.get(transactionpage_locators.filterDateTemp1+dateFilter+
-        transactionpage_locators.filterDateTemp2).click({timeout: 10000});
+    // cy.get(transactionpage_locators.filterDateTemp1 + dateFilter + transactionpage_locators.filterDateTemp2)
+    // .click({  timeout: 10000 });
+    cy.get(transactionpage_locators.filterDateTemp1 + dateFilter + transactionpage_locators.filterDateTemp2)
+    .click({ timeout: 10000 })
+    .wait(500)
+    cy.get(".rs-calendar-table-cell-selected > .rs-calendar-table-cell-content > .rs-calendar-table-cell-day")
+    .click({ timeout: 10000 })
+    .wait(3000);
+    // cy.get(transactionpage_locators.filterDateTemp1 + dateFilter + transactionpage_locators.filterDateTemp2)
+    // .click({  timeout: 10000 });
     // click ok
     cy.get(transactionpage_locators.filterOkButton)
     .click({timeout: 10000});
