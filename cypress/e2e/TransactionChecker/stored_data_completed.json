@@ -1,30 +1,28 @@
 {
-  "transaction_number": "2471728590",
-  "reference_no": "191901265",
-  "status": "failed",
+  "transaction_number": "2461731286",
+  "reference_no": "198219355",
+  "status": "completed",
+  "checkout_url": "https://ppi-ph.com/payments/Y80D8mIViOg",
   "customer": {
-    "customer_number": "2430740920",
-    "first_name": "学",
-    "last_name": "大和田",
-    "email": "y.-7._.7-.s@i.softbank.jp",
-    "mobile": "+819070648447",
-    "city": "Sumida-ku",
-    "country": "JP",
-    "state": "Tokyo",
-    "zip": "217-1009",
-    "address_line_1": "Oshiage",
-    "address_line_2": "11",
-    "full_name": "学 大和田"
+    "customer_number": "2461995771",
+    "first_name": "aldrin",
+    "last_name": "danganan",
+    "email": "aldrinendarnew@gmail.com",
+    "mobile": "+639619039796",
+    "city": null,
+    "country": "PH",
+    "state": null,
+    "zip": null,
+    "address_line_1": null,
+    "address_line_2": null,
+    "full_name": "aldrin danganan"
   },
   "details": {
-    "credit_amount": 250000,
-    "credit_currency": "JPY",
-    "debit_currency": "JPY",
-    "debit_amount": 0,
-    "exchange_rate": 0,
-    "fee": 0,
-    "method": "local_bank_transfer",
-    "total_amount": 0,
-    "type": "withdrawal"
+    "credit_amount": 40000,
+    "credit_currency": "PHP",
+    "fee": 800,
+    "method": "payment_provider",
+    "total_amount": 39200,
+    "type": "deposit"
   }
 }
