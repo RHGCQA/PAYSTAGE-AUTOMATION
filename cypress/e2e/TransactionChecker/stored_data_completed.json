@@ -1,55 +1,28 @@
 {
-<<<<<<< Updated upstream
-  "transaction_number": "2461731286",
-  "reference_no": "198219355",
+  "transaction_number": "2445307114",
+  "reference_no": "206652357",
   "status": "completed",
-  "checkout_url": "https://ppi-ph.com/payments/Y80D8mIViOg",
+  "checkout_url": "https://ppi-ph.com/payments/6CeSeLSVNUI",
   "customer": {
-    "customer_number": "2461995771",
-    "first_name": "aldrin",
-    "last_name": "danganan",
-    "email": "aldrinendarnew@gmail.com",
-    "mobile": "+639619039796",
+    "customer_number": "2465753109",
+    "first_name": "adonis",
+    "last_name": "parina",
+    "email": "adonisparina2000@gmail.com",
+    "mobile": "+639772567279",
     "city": null,
     "country": "PH",
     "state": null,
     "zip": null,
     "address_line_1": null,
     "address_line_2": null,
-    "full_name": "aldrin danganan"
+    "full_name": "adonis parina"
   },
   "details": {
-    "credit_amount": 40000,
+    "credit_amount": 2000,
     "credit_currency": "PHP",
-    "fee": 800,
+    "fee": 40,
     "method": "payment_provider",
-    "total_amount": 39200,
-=======
-  "transaction_number": "2426135212",
-  "reference_no": "2091007059",
-  "status": "failed",
-  "checkout_url": "https://ppi-ph.com/payments/oiQPyClIQ4I",
-  "customer": {
-    "customer_number": "2476640760",
-    "first_name": "kevin",
-    "last_name": "zamora",
-    "email": "kevinjohndz14@gmail.com",
-    "mobile": "+639682287530",
-    "city": "Makati City",
-    "country": "PH",
-    "state": "NCR",
-    "zip": "1208",
-    "address_line_1": "Block 96, Lot 29, 1208, Makati City, PHILIPPINES",
-    "address_line_2": null,
-    "full_name": "kevin zamora"
-  },
-  "details": {
-    "credit_amount": 500,
-    "credit_currency": "PHP",
-    "fee": 13.75,
-    "method": "payment_provider",
-    "total_amount": 486.25,
->>>>>>> Stashed changes
+    "total_amount": 1960,
     "type": "deposit"
   }
 }

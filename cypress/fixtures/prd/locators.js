@@ -154,6 +154,7 @@ const transactionpage_locators ={
     solution_dropdown: ":nth-child(5) > .w-full > .rs-picker-toggle",
     solution_lbtJapan: '[data-key="local_bank_japan"] > .rs-picker-select-menu-item',
     solution_QRPH: '[data-key="qrph"] > .rs-picker-select-menu-item',
+    solution_instapay: '[data-key="instapay"] > .rs-picker-select-menu-item',
 
     // filter status
     status_dropdown: ':nth-child(6) > .w-full > .rs-picker-toggle > .rs-stack > [style="flex-grow: 1; overflow: hidden;"]',
@@ -167,7 +168,7 @@ const transactionpage_locators ={
     transaction_gotosearch: '.rs-pagination-group-skip > :nth-child(2) > .rs-input',
 
     filterDateTemp1: '[aria-label="',
-    filterDateTemp2: ' Aug 2024"] > .rs-calendar-table-cell-content > .rs-calendar-table-cell-day',
+    filterDateTemp2: ' Sep 2024"] > .rs-calendar-table-cell-content > .rs-calendar-table-cell-day',
     filterOkButton: '.rs-picker-toolbar-right > .rs-btn'
 }
 
