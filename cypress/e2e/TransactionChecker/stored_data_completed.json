@@ -1,28 +1,28 @@
 {
-  "transaction_number": "2445307114",
-  "reference_no": "206652357",
-  "status": "completed",
-  "checkout_url": "https://ppi-ph.com/payments/6CeSeLSVNUI",
+  "transaction_number": "2432463703",
+  "reference_no": "2160406917",
+  "status": "failed",
+  "checkout_url": "https://ppi-ph.com/payments/Fxuip-kuTgE",
   "customer": {
-    "customer_number": "2465753109",
-    "first_name": "adonis",
-    "last_name": "parina",
-    "email": "adonisparina2000@gmail.com",
-    "mobile": "+639772567279",
-    "city": null,
+    "customer_number": "2444432050",
+    "first_name": "pierre",
+    "last_name": "vallar",
+    "email": "vaguepaint@gmail.com",
+    "mobile": "+639290092531",
+    "city": "Cainta",
     "country": "PH",
-    "state": null,
-    "zip": null,
-    "address_line_1": null,
+    "state": "Rizal",
+    "zip": "1900",
+    "address_line_1": "60, 1900, Cainta, PHILIPPINES",
     "address_line_2": null,
-    "full_name": "adonis parina"
+    "full_name": "pierre vallar"
   },
   "details": {
-    "credit_amount": 2000,
+    "credit_amount": 1500,
     "credit_currency": "PHP",
-    "fee": 40,
+    "fee": 41.25,
     "method": "payment_provider",
-    "total_amount": 1960,
+    "total_amount": 1458.75,
     "type": "deposit"
   }
 }
