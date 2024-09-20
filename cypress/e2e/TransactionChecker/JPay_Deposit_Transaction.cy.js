@@ -26,7 +26,7 @@ function roundToTwo(num) {
 
 // const sheetId = '1vd-uTQXSUgrAc5hoE_du2Zxvw6toE9gEWpjpWxcdwIk';
 const filpath = 'cypress/e2e/Reports/LiveTransactionChecker.xlsx'; //changed to excel path file
-const sheetName = "JPAY DEPOSIT LIVE TRANSACTIONS";
+const sheetName = "JPAY DEPOSIT";
 const pageLength = 5;
 
 const PageNav = Array.from({ length: pageLength}, (_, i) => i + 1);
@@ -43,50 +43,55 @@ describe('Looping within an it block', () => {
             cy.get(loginpage_locators.pass_field).type(common.adminPass);
             cy.get(loginpage_locators.submit_button).click();
 
+            // Navigate to the transaction page
+            cy.get(sidebarmenu_locators.transaction_module, { timeout: 4500 }).click();
+            cy.get(sidebarmenu_locators.transaction_submodule).click();
+            // Filter transactions
+            filterTransactions('type_deposit', 'vendor_jpay', 'solution_lbtJapan', 2, pageNav, { timeout: 5500 });
             try {
-                // Navigate to the transaction page
-                cy.get(sidebarmenu_locators.transaction_module, { timeout: 4500 }).click();
-                cy.get(sidebarmenu_locators.transaction_submodule).click();
-                // Filter transactions
-                filterTransactions('type_deposit', 'vendor_jpay', 'solution_lbtJapan', 2, pageNav, { timeout: 5500 });
-                cy.get('.rs-pagination-btn-active').invoke('text').then((active_page_num)=>{
-                    if(pageNav == active_page_num){
-                        cy.get(transactionpage_locators.tablerow).its('length').then((rowCount) => {
-                            let startRow = (pageNav - 1) * 20 + 1;
-                            for (let x = 2; x <= rowCount+1; x++) {
-                                const rowSelector = `${transactionpage_locators.locator_base1}${x}${transactionpage_locators.locator_base2}${transactionpage_locators.exist}`;
-                                
-                                cy.get(rowSelector).then((isTransactionExist) => {
-                                    if (isTransactionExist) {
-                                        fetchTransactionData(x, 'transaction_number', 'merchant_number', 'merchant_name',
-                                        'customer_name', 'type', 'method', 'vendor', 'solution', 'status', 'amount', 'net_amount');
+                cy.get('body').then(($body) => {
+                    if ($body.find('.rs-pagination-btn-active').length) {
+                        cy.get('.rs-pagination-btn-active').invoke('text').then((active_page_num)=>{
+                            if(pageNav == active_page_num){
+                                cy.get(transactionpage_locators.tablerow).its('length').then((rowCount) => {
+                                    let startRow = (pageNav - 1) * 20 + 1;
+                                    for (let x = 2; x <= rowCount+1; x++) {
+                                        const rowSelector = `${transactionpage_locators.locator_base1}${x}${transactionpage_locators.locator_base2}${transactionpage_locators.exist}`;
                                         
-                                        cy.get('@transaction_number').then((transactionNumber) => {
-                                            validateTransactionDetails(transactionNumber, pageNav, x, startRow, filpath, sheetName);
-                                            validateWebhookResponses(filpath, sheetName, startRow + x - 1);
-                                            writeInGoogleSheet(filpath, startRow + x - 1, sheetName);
-                                            cy.task('log', transactionNumber);
-                                        });
-                                    } else {
-                                        cy.log("No transaction found at row " + x);
+                                        cy.get(rowSelector).then((isTransactionExist) => {
+                                            if (isTransactionExist) {
+                                                fetchTransactionData(x, 'transaction_number', 'merchant_number', 'merchant_name',
+                                                'customer_name', 'type', 'method', 'vendor', 'solution', 'status', 'amount', 'net_amount');
+                                                
+                                                cy.get('@transaction_number').then((transactionNumber) => {
+                                                    validateTransactionDetails(transactionNumber, pageNav, x, startRow, filpath, sheetName);
+                                                    validateWebhookResponses(transactionNumber, filpath, sheetName, startRow + x - 1);
+                                                    writeInGoogleSheet(filpath, startRow + x - 1, sheetName);
+                                                    cy.task('log', transactionNumber);
+                                                });
+                                            } else {
+                                                cy.log("No transaction found at row " + x);
+                                            }
+                                            cy.go('back', { timeout: 5000 });
+                                            cy.wait(3500);
+                                            filterTransactions('type_deposit', 'vendor_jpay', 'solution_lbtJapan', 2, pageNav, { timeout: 5500 });
+                                        })
                                     }
-                                    cy.go('back', { timeout: 5000 });
-                                    cy.wait(3500);
-                                    filterTransactions('type_deposit', 'vendor_jpay', 'solution_lbtJapan', 2, pageNav, { timeout: 5500 });
-                                })
+                                });
+                            }else{
+                                cy.log("No page found");
                             }
-                        });
-                    }else{
-                        cy.log("No page found");
+                        })
+                    } else {
+                        cy.log('No transaction found, skipping the test...');
                     }
-                })
+                });
             }catch(error){
                 testPassed = false;
             }
         });
     });
 });
-
 
 const validateTransactionDetails = (transactionNumber, pageNav, row, startRow, filpath, sheetName) => {
     try{
@@ -123,7 +128,7 @@ const validateTransactionDetails = (transactionNumber, pageNav, row, startRow, f
     }
 };
 
-const validateWebhookResponses = (filpath, sheetName, sheetRow) => {
+const validateWebhookResponses = (transactionNumber, filpath, sheetName, sheetRow) => {
     const resultCell = `I${sheetRow}`;
     const storedStatus = Cypress.env('status');
 
@@ -139,6 +144,19 @@ const validateWebhookResponses = (filpath, sheetName, sheetRow) => {
             cy.wrap(callbackResponse.details.total_amount).as('callback_total_amount');
             cy.wrap(callbackResponse.details.transfer_id).as('callback_transfer_id');
         });
+        cy.get('@callback_transaction_number').then((callback_transaction_number) => {
+            expect(callback_transaction_number).to.eq(transactionNumber);
+        });
+        cy.get('@callback_merrefno').then((callback_merrefno) => {
+            cy.get(transactiondetails_locators.merchant_number).should('be.visible').and('have.text', callback_merrefno);
+        });
+        cy.get('@callback_status').then((callback_status) => {
+            cy.get(transactiondetails_locators.status).should('be.visible').and('have.text', callback_status);
+        });
+        cy.get('@callback_customer_mobile').then((callback_customer_mobile) => {
+            cy.get(transactiondetails_locators.mobile).should('be.visible').and('have.text', callback_customer_mobile);
+        });
+
         if (storedStatus == 'pending'){
             cy.task('writeToExcel', { filePath: filpath, sheetName: sheetName, cell: resultCell, value: 'PENDING'});
             return;
@@ -152,6 +170,7 @@ const validateWebhookResponses = (filpath, sheetName, sheetRow) => {
         cy.readFile(data_response_holder.rwPayload).then((payloadResponse) => {
             cy.wrap(payloadResponse.uid).as('payload_uid');
             cy.wrap(payloadResponse.transfer_id).as('payload_transfer_id');
+            cy.wrap(payloadResponse.transaction_number).as('payload_transaction_number');
             cy.wrap(payloadResponse.amount).as('payload_amount');
             cy.wrap(payloadResponse.fee).as('payload_fee');
         });
@@ -164,6 +183,11 @@ const validateWebhookResponses = (filpath, sheetName, sheetRow) => {
             cy.wrap(callbackResponse.details.fee).as('callback_fee');
             cy.wrap(callbackResponse.details.total_amount).as('callback_total_amount');
             cy.wrap(callbackResponse.details.transfer_id).as('callback_transfer_id');
+        });
+        cy.get('@payload_transaction_number').then((payload_transaction_number) => {
+            cy.get(transactiondetails_locators.solution_ref).invoke('text').then((solution_ref)=>{
+                expect(payload_transaction_number).to.eq(solution_ref);
+            });
         });
         cy.get('@payload_uid').then((payload_uid) => {
             cy.get('@callback_merrefno').should((callback_merrefno) => {

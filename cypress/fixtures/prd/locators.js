@@ -149,12 +149,15 @@ const transactionpage_locators ={
     vendor_dropdown: ":nth-child(4) > .w-full > .rs-picker-toggle",
     vendor_jpay: '[data-key="jpay"] > .rs-picker-select-menu-item',
     vendor_allbank: '[data-key="all_bank"] > .rs-picker-select-menu-item',
+    vendor_toppay: '[data-key="top_pay"] > .rs-picker-select-menu-item',
 
     // filter solution
     solution_dropdown: ":nth-child(5) > .w-full > .rs-picker-toggle",
     solution_lbtJapan: '[data-key="local_bank_japan"] > .rs-picker-select-menu-item',
     solution_QRPH: '[data-key="qrph"] > .rs-picker-select-menu-item',
     solution_instapay: '[data-key="instapay"] > .rs-picker-select-menu-item',
+    solution_lbtIndo: '[data-key="local_bank_indonesia"] > .rs-picker-select-menu-item',
+    solution_lbtThai: '[data-key="local_bank_thailand"] > .rs-picker-select-menu-item',
 
     // filter status
     status_dropdown: ':nth-child(6) > .w-full > .rs-picker-toggle > .rs-stack > [style="flex-grow: 1; overflow: hidden;"]',
@@ -180,6 +183,11 @@ const transactiondetails_locators ={
     customer_name: ':nth-child(3) > .rs-panel-body > .flex > :nth-child(1) > .list-value',
     solution_ref: '.gap-y-3 > :nth-child(3) > .list-value',
     mobile: '.flex > :nth-child(3) > .list-value',
+
+    settlement_amount: '.gap-y-3 > :nth-child(2) > .flex',
+    settlement_fee: ':nth-child(4) > .flex',
+    settlement_totalamount: ':nth-child(6) > .flex',
+
     view_payload: '.rs-timeline-item-content > .capitalize > .rs-btn-group > .rs-btn',
     close_modal: '[aria-label="close"]',
     mobdal_content: 'pre',

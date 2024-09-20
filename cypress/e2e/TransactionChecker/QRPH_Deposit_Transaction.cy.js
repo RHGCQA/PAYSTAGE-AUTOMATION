@@ -25,7 +25,7 @@ function roundToTwo(num) {
 
 // const sheetId = '1vd-uTQXSUgrAc5hoE_du2Zxvw6toE9gEWpjpWxcdwIk';
 const filpath = 'cypress/e2e/Reports/LiveTransactionChecker.xlsx'; //changed to excel path file
-const sheetName = "QPRH LIVE TRANSACTIONS";
+const sheetName = "QPRH DEPOSIT";
 const pageLength = 5;
 
 const PageNav = Array.from({ length: pageLength }, (_, i) => i + 1);
@@ -43,44 +43,49 @@ describe('Looping within an it block', () => {
             cy.get(loginpage_locators.submit_button).click();
             cy.updateQATouchTestResult('RpM25D', 'passed');
 
+            // Navigate to transaction page
+            cy.get(sidebarmenu_locators.transaction_module, { timeout: 4500 }).click();
+            cy.get(sidebarmenu_locators.transaction_submodule).click();
+
+            // Filter transactions
+            filterTransactions('type_deposit', 'vendor_allbank', 'solution_QRPH', 2, pageNav, { timeout: 5500 });
             try {
-                // Navigate to transaction page
-                cy.get(sidebarmenu_locators.transaction_module, { timeout: 4500 }).click();
-                cy.get(sidebarmenu_locators.transaction_submodule).click();
-                // Filter transactions
-                filterTransactions('type_deposit', 'vendor_allbank', 'solution_QRPH', 2, pageNav, { timeout: 5500 });
-                cy.get('.rs-pagination-btn-active').invoke('text').then((active_page_num)=>{
-                    if(pageNav == active_page_num){
-                        cy.get(transactionpage_locators.tablerow).its('length').then((rowCount) => {
-                            let startRow = (pageNav - 1) * 20 + 1;
-                            
-                            for (let x = 2; x <= rowCount+1; x++) {
-                                const rowSelector = `${transactionpage_locators.locator_base1}${x}${transactionpage_locators.locator_base2}${transactionpage_locators.exist}`;
-                                cy.get(rowSelector).then((isTransactionExist) => {
-                                    if (isTransactionExist) {
-                                        fetchTransactionData(x, 'transaction_number', 'merchant_number', 'merchant_name',
-                                            'customer_name', 'type', 'method', 'vendor', 'solution', 'status', 'amount', 'net_amount');
-                                            
-                                        cy.get('@transaction_number').then((transactionNumber) => {
-                                            validateTransactionDetails(transactionNumber, pageNav, x, startRow, filpath, sheetName);
-                                            validateWebhookResponses(filpath, sheetName, startRow + x - 1);
-                                            writeInGoogleSheet(filpath, startRow + x - 1, sheetName);
-                                            cy.task('log', transactionNumber);
+                cy.get('body').then(($body) => {
+                    if ($body.find('.rs-pagination-btn-active').length) {
+                        cy.get('.rs-pagination-btn-active').invoke('text').then((active_page_num)=>{
+                            if(pageNav == active_page_num){
+                                cy.get(transactionpage_locators.tablerow).its('length').then((rowCount) => {
+                                    let startRow = (pageNav - 1) * 20 + 1;
+                                    for (let x = 2; x <= rowCount+1; x++) {
+                                        const rowSelector = `${transactionpage_locators.locator_base1}${x}${transactionpage_locators.locator_base2}${transactionpage_locators.exist}`;
+                                        cy.get(rowSelector).then((isTransactionExist) => {
+                                            if (isTransactionExist) {
+                                                fetchTransactionData(x, 'transaction_number', 'merchant_number', 'merchant_name',
+                                                    'customer_name', 'type', 'method', 'vendor', 'solution', 'status', 'amount', 'net_amount');
+                                                cy.get('@transaction_number').then((transactionNumber) => {
+                                                    validateTransactionDetails(transactionNumber, pageNav, x, startRow, filpath, sheetName);
+                                                    validateWebhookResponses(filpath, sheetName, startRow + x - 1);
+                                                    writeInGoogleSheet(filpath, startRow + x - 1, sheetName);
+                                                    cy.task('log', transactionNumber);
+                                                });
+                                            } else {
+                                                cy.log("No transaction found at row " + x);
+                                            }
+                                            cy.go('back', { timeout: 5000 });
+                                            cy.wait(3250);
+                                            filterTransactions('type_deposit', 'vendor_allbank', 'solution_QRPH', 2, pageNav, { timeout: 5500 });
                                         });
-                                    } else {
-                                        cy.log("No transaction found at row " + x);
                                     }
-                                    cy.go('back', { timeout: 5000 });
-                                    cy.wait(3250);
-                                    filterTransactions('type_deposit', 'vendor_allbank', 'solution_QRPH', 2, pageNav, { timeout: 5500 });
                                 });
+                            }else{
+                                cy.log("No page found ");
                             }
-                        });
-                    }else{
-                        cy.log("No page found ");
+                            cy.updateQATouchTestResult('d192aw', 'passed');
+                        })
+                    } else {
+                        cy.log('No transaction found, skipping the test...');
                     }
-                cy.updateQATouchTestResult('d192aw', 'passed');
-            })
+                });
             } catch (error) {
                 cy.updateQATouchTestResult('d192aw', 'failed');
                 testPassed = false;
