@@ -1,30 +1,28 @@
 {
-  "transaction_number": "2471728590",
-  "reference_no": "191901265",
-  "status": "failed",
+  "transaction_number": "2411585107",
+  "reference_no": "DP2024091926429",
+  "status": "expired",
+  "checkout_url": "https://openapi.kbankpay.work/cashier/?orderNum=PRE1836613632809525346",
   "customer": {
-    "customer_number": "2430740920",
-    "first_name": "学",
-    "last_name": "大和田",
-    "email": "y.-7._.7-.s@i.softbank.jp",
-    "mobile": "+819070648447",
-    "city": "Sumida-ku",
-    "country": "JP",
-    "state": "Tokyo",
-    "zip": "217-1009",
-    "address_line_1": "Oshiage",
-    "address_line_2": "11",
-    "full_name": "学 大和田"
+    "customer_number": "2481756812",
+    "first_name": "aileen qa",
+    "last_name": "qa test",
+    "email": "aijpayqatest@gmail.com",
+    "mobile": "+63639178638446",
+    "city": "Makati",
+    "country": "PH",
+    "state": "Metro manila",
+    "zip": "1200",
+    "address_line_1": "6789 tower",
+    "address_line_2": null,
+    "full_name": "aileen qa qa test"
   },
   "details": {
-    "credit_amount": 250000,
-    "credit_currency": "JPY",
-    "debit_currency": "JPY",
-    "debit_amount": 0,
-    "exchange_rate": 0,
-    "fee": 0,
+    "credit_amount": 350,
+    "credit_currency": "THB",
+    "fee": 10,
     "method": "local_bank_transfer",
-    "total_amount": 0,
-    "type": "withdrawal"
+    "total_amount": 340,
+    "type": "deposit"
   }
 }

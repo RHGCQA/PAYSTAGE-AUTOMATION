@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "paystage-automation-tool",
+  "private_key_id": "8c403695dde6f8d6a1710cb6bb5a95177f5f4973",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDHez1NfGNVly7A\niVba58vUfj+KMI9PFkG6Kz7BU6kCIjdvAcBgDObw/2qKZ2feId5xA7w389SUnZBW\n+FLuZVPjx5+BegS0J7njGuRvyN3bNlCdR49fQz6wdUIx5asOUmgli09MAijvLjpr\n6xVnym+m6yHjBleMVYlp+w3l7Pddf8K1PTW4b7n/rBbEOX9jA2SdfElLGpvpYbcj\nDmbEXFvcCVUjsRkQ9VpeZRC1Ve1EOrIuqefiklrZYjHCysLW/9Xn2+iZDsbNvsQN\nsrWYPZ/CBP+aPqQgNA9DN1Qn1dh/racqXr3N2XKJpny9GwwPiZ4y8iKBPvzYbdLE\nR4LmsWW1AgMBAAECggEADOAytfCBoDyDazBnjPapl0bU3BsZTPNfUmBzNbBW4t6J\nhx6Xp7t9dpsjPy7AgLvdQJyLRsNJepRBr6i/VZ2bEMNJqOZS17wOtA7Vet+ow6Wv\nBg/gkbdknFLdRHI8xyO2OYzTP/vjCi6I3SljNtFVa/KWZockxIKgPYPTwv5iKG82\n9oX+BSXrk7qGQ7AgbX6ahL7+7OK/oBOBi6Zb+nBmLRM8eiPjmGS3bxoj2xFGxYWn\nivXA7uK+IRbBYnSIIU1Bo+VC6HjdFK831yzHUnY+SA0d3EgiTbEgZIu1c256fm33\nYncpPVYbXFojrMEtyxZvk7LjtzRI8FMmvJvn+7fXywKBgQDwiQqZSZkIo3aTr7H/\n6dmAQqv0iUGb6dmq9ZdtUuetGpCSMxowcHB439xwvEyVJxQEtcZL9644q3/NB8Oi\n4gP6WzsYcyJfqeytKWSnX0Py6Y0fZ3UEWaC/F7KsSsj9jXFaYiQbzcv3wLsYmWTr\nuXfNMueqaVcZyErEaQBhut7XswKBgQDUTn5oKEdSpBZ8rsZ9aIof3OK6afm6tLao\ntRINqIEKnPRgNm9dxbA2PXkA+FpL3wi806M8GXgUBz2djdYUhORHhh5O9X4qq3P5\nCGWBoBfwgbjoSzJdct+kG5Nhw/CMLYuZdlNcr/oSX8UcsdYGvcNODUawfX6tqNum\ny4T7sW+Y9wKBgEFDjcKlu4YihCvyQgPD+aXZcTq6ezjIrKy8UkfxdLb9PDjO8M4v\n0/SYGQHltYnKvp3AjHtUSstJjTWeY7CwTpABbPlnU+5M9tDNKGhZauBgClB5C8EQ\naJMw5OPmrr5NQHJbqpx4rF0eyCUWidGD00O0CjOsvVtbgx3jt5zMzWYNAoGBALsr\n4IGPUSHoi/KsW03gxjVFFZZnK8WQ4KBn0ly8O9fRfBj+pLw1Nx76nx1d1q2hGiDv\nLLAlfBmcMJQgoaZBasgr07ik8fBIa9wXrPXU4IYmt5AEC4kbZ1NVBGBi0EWlObe3\n+9JxSrS8PhkIJ7qVvgOn7LRYT0Bm6A9qyfjj+5ENAoGAEwuHLiDMEZk2dRDavowh\nFoef8DVwwN9KoiS+vrUEK/MtHKTkgTQ6xkkyy7DvHj90Smav8MhvXKysBMdWDYZg\nuhWR7YdlSu2wTZ5UAL7GLli5mOhgUO8hZJ9zkalrccDX79azt1K73gBZ8dqNhbF8\nsxsdEFbLwKmhNsKRy81CKAs=\n-----END PRIVATE KEY-----\n",
+  "client_email": "paystage-automation@paystage-automation-tool.iam.gserviceaccount.com",
+  "client_id": "102314385292216831648",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/paystage-automation%40paystage-automation-tool.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

@@ -1,6 +1,6 @@
 import { transactionpage_locators } from "../../fixtures/prd/locators";
 
-export const fetchTransactionData = 
+export const fetchTransactionData =
 (rowCount,transaction_number, merchant_number, merchant_name, customer_name, type, method, vendor, solution, status, amount, net_amount) => {
     cy.get(transactionpage_locators.locator_base1+[rowCount]+
         transactionpage_locators.locator_base2+
