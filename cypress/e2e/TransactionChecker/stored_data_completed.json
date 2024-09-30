@@ -1,28 +1,28 @@
 {
-  "transaction_number": "2411585107",
-  "reference_no": "DP2024091926429",
+  "transaction_number": "2477338054",
+  "reference_no": "e832d16d-9aed-4467-98cb-40dc88d2f93c",
   "status": "expired",
-  "checkout_url": "https://openapi.kbankpay.work/cashier/?orderNum=PRE1836613632809525346",
+  "checkout_url": "https://openapi.doku.life/cashier/v2/?orderNum=PRE1840122192654770267",
   "customer": {
-    "customer_number": "2481756812",
-    "first_name": "aileen qa",
-    "last_name": "qa test",
-    "email": "aijpayqatest@gmail.com",
-    "mobile": "+63639178638446",
-    "city": "Makati",
-    "country": "PH",
-    "state": "Metro manila",
-    "zip": "1200",
-    "address_line_1": "6789 tower",
+    "customer_number": "2446445825",
+    "first_name": "dodi",
+    "last_name": "irawan",
+    "email": "Raheem38@gmail.com",
+    "mobile": "+62085026516030",
+    "city": "Labuha",
+    "country": "ID",
+    "state": "ID",
+    "zip": "95311",
+    "address_line_1": "Bacan",
     "address_line_2": null,
-    "full_name": "aileen qa qa test"
+    "full_name": "dodi irawan"
   },
   "details": {
-    "credit_amount": 350,
-    "credit_currency": "THB",
-    "fee": 10,
+    "credit_amount": 3176218,
+    "credit_currency": "IDR",
+    "fee": 85406,
     "method": "local_bank_transfer",
-    "total_amount": 340,
+    "total_amount": 3090812,
     "type": "deposit"
   }
 }

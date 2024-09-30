@@ -195,29 +195,30 @@ const validateWebhookResponses = (filpath, sheetName, sheetRow) => {
 
     try{
         cy.readFile(data_response_holder.rwPayload).then((payloadResponse) => {
-            cy.wrap(payloadResponse.uid).as('payload_uid');
-            cy.wrap(payloadResponse.transfer_id).as('payload_transfer_id');
-            cy.wrap(payloadResponse.amount).as('payload_amount');
-            cy.wrap(payloadResponse.fee).as('payload_fee');
+            cy.wrap(payloadResponse.transaction.transaction_number).as('payload_transaction_number');
+            cy.wrap(payloadResponse.transaction.reference_no).as('payload_reference_no');
+            cy.wrap(payloadResponse.phone).as('payload_mobile');
+            cy.wrap(payloadResponse.transaction.amount).as('payload_amount');
+            cy.wrap(payloadResponse.transaction.settlement_details.total_fee).as('payload_fee');
+            cy.wrap(payloadResponse.transaction.settlement_details.total_amount).as('payload_total_amount');
         });
         cy.readFile(data_response_holder.rwCompleted).then((callbackResponse) => {
             cy.wrap(callbackResponse.transaction_number).as('callback_transaction_number');
-            cy.wrap(callbackResponse.reference_no).as('callback_merrefno');
+            cy.wrap(callbackResponse.reference_no).as('callback_reference_no');
             cy.wrap(callbackResponse.status).as('callback_status');
             cy.wrap(callbackResponse.customer.mobile).as('callback_customer_mobile');
             cy.wrap(callbackResponse.details.credit_amount).as('callback_credit_amount');
             cy.wrap(callbackResponse.details.fee).as('callback_fee');
             cy.wrap(callbackResponse.details.total_amount).as('callback_total_amount');
-            cy.wrap(callbackResponse.details.transfer_id).as('callback_transfer_id');
         });
-        cy.get('@payload_uid').then((payload_uid) => {
-            cy.get('@callback_merrefno').should((callback_merrefno) => {
-                expect(payload_uid).to.eq(callback_merrefno);
+        cy.get('@payload_transaction_number').then((payload_transaction_number) => {
+            cy.get('@callback_transaction_number').should((callback_transaction_number) => {
+                expect(payload_transaction_number).to.eq(callback_transaction_number);
             });
         });
-        cy.get('@payload_transfer_id').then((payload_transfer_id) => {
-            cy.get('@callback_transfer_id').should((callback_transfer_id) => {
-                expect(payload_transfer_id).to.eq(callback_transfer_id);
+        cy.get('@payload_reference_no').then((payload_reference_no) => {
+            cy.get('@callback_reference_no').should((callback_reference_no) => {
+                expect(payload_reference_no).to.eq(callback_reference_no);
             });
         });
         cy.get('@payload_amount').then((payload_amount) => {
@@ -240,10 +241,6 @@ const validateWebhookResponses = (filpath, sheetName, sheetRow) => {
                 let payloadFee = parseInt(payload_fee)
                 expect(payloadFee).to.eq(callback_fee);
             });
-        });
-        cy.get('@callback_merrefno').then((callback_merrefno) => {
-            const storedMerchantNumber = Cypress.env('merchant_number');
-            expect(callback_merrefno).to.eq(storedMerchantNumber);
         });
         cy.get('@callback_status').then((callback_status) => {
             const storedStatus = Cypress.env('status')
