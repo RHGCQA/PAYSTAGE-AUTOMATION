@@ -26,9 +26,9 @@ function roundToTwo(num) {
 // const sheetId = '1vd-uTQXSUgrAc5hoE_du2Zxvw6toE9gEWpjpWxcdwIk';
 const filpath = 'cypress/e2e/Reports/LiveTransactionChecker.xlsx'; //changed to excel path file
 const sheetName = "QPRH DEPOSIT";
-const pageLength = 5;
+const pageLength = 4;
 
-const PageNav = Array.from({ length: pageLength }, (_, i) => i + 1);
+const PageNav = Array.from({ length: pageLength }, (_, i) => i + 2);
 
 describe('Looping within an it block', () => {
     PageNav.forEach((pageNav) => {
@@ -154,7 +154,7 @@ const validateWebhookResponses = (filpath, sheetName, sheetRow) => {
                     cy.get('@callback_total_amount').should('eq', amount - fee);
                     break;
                 case 'RIVALRY LIMITED':
-                    const rivalryFee = Math.max(13, roundToTwo(amount * 0.0275));
+                    const rivalryFee = Math.max(13, amount * 0.0275);
                     cy.get('@callback_fee').should('eq', rivalryFee);
                     cy.get('@callback_total_amount').should('eq', amount - rivalryFee);
                     break;

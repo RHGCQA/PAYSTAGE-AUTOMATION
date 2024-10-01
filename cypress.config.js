@@ -4,6 +4,7 @@ const path = require('path');
 const XLSX = require('xlsx');
 
 module.exports = defineConfig({
+  downloadsFolder: 'cypress/downloads',
   e2e: {
     setupNodeEvents(on, config) {
       on('task', {
