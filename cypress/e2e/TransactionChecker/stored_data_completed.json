@@ -1,28 +1,28 @@
 {
-  "transaction_number": "2467142222",
-  "reference_no": "1191",
+  "transaction_number": "2462642345",
+  "reference_no": "211190701",
   "status": "completed",
-  "checkout_url": "https://ppi-ph.com/payments/appwQsDLP3s",
+  "checkout_url": "https://ppi-ph.com/payments/ReoDV5tSTL0",
   "customer": {
-    "customer_number": "2481617592",
-    "first_name": "wilhelmina garcia",
-    "last_name": "valdoz",
-    "email": "nslrdc.wiye@gmail.com",
-    "mobile": "+639668214285",
-    "city": "Batangas",
+    "customer_number": "2447090941",
+    "first_name": "wilfredo",
+    "last_name": "lampa",
+    "email": "lamfredov@gmail.com",
+    "mobile": "+639287410693",
+    "city": null,
     "country": "PH",
-    "state": "Batangas",
-    "zip": "4231",
-    "address_line_1": "St simon road balayam",
-    "address_line_2": "St simon road balayam",
-    "full_name": "wilhelmina garcia valdoz"
+    "state": null,
+    "zip": null,
+    "address_line_1": null,
+    "address_line_2": null,
+    "full_name": "wilfredo lampa"
   },
   "details": {
-    "credit_amount": 1000,
+    "credit_amount": 1500,
     "credit_currency": "PHP",
-    "fee": 40,
+    "fee": 30,
     "method": "payment_provider",
-    "total_amount": 960,
+    "total_amount": 1470,
     "type": "deposit"
   }
 }

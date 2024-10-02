@@ -135,6 +135,9 @@ const transactionpage_locators ={
     amount: '[aria-colindex="12"] > .rs-table-cell-content',
     net_amount: '[aria-colindex="15"] > .rs-table-cell-content',
 
+    // search bar
+    search_bar: '.rs-input-group > .rs-input',
+
     // filter date
     date_dropdown: ':nth-child(8) > .w-full > .rs-picker-toggle > .rs-stack > [style="flex-grow: 1; overflow: hidden;"] > .rs-picker-toggle-textbox',
     date_filter1: '.rs-picker-toolbar-ranges > :nth-child(',

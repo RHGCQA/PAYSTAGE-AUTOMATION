@@ -24,11 +24,11 @@ function roundToTwo(num) {
 }
 
 // const sheetId = '1vd-uTQXSUgrAc5hoE_du2Zxvw6toE9gEWpjpWxcdwIk';
-const filpath = 'cypress/e2e/Reports/LiveTransactionChecker.xlsx'; //changed to excel path file
+const filpath = 'cypress/e2e/Reports/LiveTransactionChecker/LiveTransactionChecker.xlsx'; //changed to excel path file
 const sheetName = "QPRH DEPOSIT";
-const pageLength = 4;
+const pageLength = 5;
 
-const PageNav = Array.from({ length: pageLength }, (_, i) => i + 2);
+const PageNav = Array.from({ length: pageLength }, (_, i) => i + 1);
 
 describe('Looping within an it block', () => {
     PageNav.forEach((pageNav) => {
