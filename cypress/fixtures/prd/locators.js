@@ -214,4 +214,3 @@ const data_response_holder ={
 module.exports = {loginpage_locators, dashboardpage_locators, merchantspage_locators,
                     accountspage_locators, accountdetails_locators, sidebarmenu_locators, transactionpage_locators,
                     transactiondetails_locators, customers_locators, data_response_holder}
-// module.exports = {dashboardpage_locators}

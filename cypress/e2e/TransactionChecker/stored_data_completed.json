@@ -1,28 +1,28 @@
 {
-  "transaction_number": "2462642345",
-  "reference_no": "211190701",
+  "transaction_number": "2454011045",
+  "reference_no": "2198196679",
   "status": "completed",
-  "checkout_url": "https://ppi-ph.com/payments/ReoDV5tSTL0",
+  "checkout_url": "https://ppi-ph.com/payments/F4US7eXsK-k",
   "customer": {
-    "customer_number": "2447090941",
-    "first_name": "wilfredo",
-    "last_name": "lampa",
-    "email": "lamfredov@gmail.com",
-    "mobile": "+639287410693",
-    "city": null,
+    "customer_number": "2472254244",
+    "first_name": "raniag",
+    "last_name": "ubas",
+    "email": "blahfool00@gmail.com",
+    "mobile": "+639760101569",
+    "city": "Manabo",
     "country": "PH",
-    "state": null,
-    "zip": null,
-    "address_line_1": null,
+    "state": "Cordillera Administrative Region",
+    "zip": "2810",
+    "address_line_1": "Manabo, 2810, Manabo, PHILIPPINES",
     "address_line_2": null,
-    "full_name": "wilfredo lampa"
+    "full_name": "raniag ubas"
   },
   "details": {
-    "credit_amount": 1500,
+    "credit_amount": 600,
     "credit_currency": "PHP",
-    "fee": 30,
+    "fee": 16.5,
     "method": "payment_provider",
-    "total_amount": 1470,
+    "total_amount": 583.5,
     "type": "deposit"
   }
 }

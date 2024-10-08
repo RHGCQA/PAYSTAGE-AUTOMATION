@@ -75,82 +75,105 @@ describe('Check all merchant Top-Up Balance', () => {
             // compute all net amount with status 'completed' and 'pending'
             cy.task('parseCSV', exportFilePath).then((data) => {
                 const completedOrPendingWithdrawals = data.filter(row => {
-                return row.Status && 
+                    return row.Status && 
                     (row.Status.trim().toLowerCase() === 'completed' || row.Status.trim().toLowerCase() === 'pending');
                 });
                 const totalNetAmount = completedOrPendingWithdrawals.reduce((sum, row) => {
-                const netAmount = parseFloat(row['Net Amount'].replace(/PHP |,/g, '')); // Use 'Net Amount'
-                return sum + netAmount;
+                    const netAmount = parseFloat(row['Net Amount'].replace(/PHP |,/g, '')); // Use 'Net Amount'
+                    return sum + netAmount;
                 }, 0);
                 // Format the total amount
-                const formattedTotal = formatCurrency(totalNetAmount);
-                cy.log(`Total Withdrawal Amount for merchant ${merchant}: PHP ${formattedTotal}`);
-                GoToTopupBalance(merchant, formattedTotal, index)
-                // writeInGoogleSheet(filpath, merchant, index + 2, sheetName)
+                const withdrawalExported = formatCurrency(totalNetAmount);
+                cy.log(`Total Withdrawal Amount for merchant ${merchant}: PHP ${withdrawalExported}`);
+                GoToTopupBalance(index, merchant, withdrawalExported)
             });
         });
     });
 });
 
-const GoToTopupBalance = (merchantName, formattedTotal, index) => {
+const GoToTopupBalance = (index, merchantName, withdrawalExported) => {
     const sheetCells = {
-        totalTopupAmount: `C${index+2}`,
-        totalWithdrawalAmount: `D${index+2}`,
-        availableBalance: `E${index+2}`
+        withdrawalExported: `E${index+2}`,
+        withdrawalDisplayed: `F${index+2}`,
+        availableBalanceDisplayed: `G${index+2}`,
+        availableBalanceComputed: `H${index+2}`,
+        status: `I${index+2}`,
+        remarks: `J${index+2}`
     };
-    //Go to Topup page 
-    cy.get('[href="https://portal.paystage.net/top-ups"]').click({ timeout: 10000 })
-    cy.wait(3000)
-    //click instapay
-    cy.get('.flex-row-reverse > :nth-child(6)').click({ timeout:10000 })
-    cy.wait(1500)
-    //search merchant name
-    cy.get('.rs-form-control > .rs-input').type(merchantName, { timeout:10000 })
-    cy.wait(3500)
-    //get the total topup amount
-    cy.get('[aria-rowindex="3"] > .rs-table-cell-group > [aria-colindex="5"] > .rs-table-cell-content').invoke('text').then((totaltopup)=>{
-        cy.get('[aria-rowindex="3"] > .rs-table-cell-group > [aria-colindex="6"] > .rs-table-cell-content').invoke('text').then((totalwithdrawal)=>{
-            cy.get('[aria-rowindex="3"] > .rs-table-cell-group > .rs-table-cell-last > .rs-table-cell-content').invoke('text').then((availablebalance)=>{
+
+    // Go to Topup page 
+    cy.get('[href="https://portal.paystage.net/top-ups"]').click({ timeout: 10000 });
+    cy.wait(3000);
+    // click instapay
+    cy.get('.flex-row-reverse > :nth-child(6)').click({ timeout: 10000 });
+    cy.wait(1500);
+    // search merchant name
+    cy.get('.rs-form-control > .rs-input').type(merchantName, { timeout: 10000 });
+    cy.wait(3500);
+    // get the total topup amount
+    cy.get('[aria-rowindex="3"] > .rs-table-cell-group > [aria-colindex="5"] > .rs-table-cell-content').invoke('text').then((totaltopup) => {
+        cy.get('[aria-rowindex="3"] > .rs-table-cell-group > [aria-colindex="6"] > .rs-table-cell-content').invoke('text').then((totalwithdrawal) => {
+            cy.get('[aria-rowindex="3"] > .rs-table-cell-group > .rs-table-cell-last > .rs-table-cell-content').invoke('text').then((availablebalance) => {
                 const trimmedTopup = parseFloat(totaltopup.replace(/PHP |,/g, ''));
                 const trimmedWithdrawal = parseFloat(totalwithdrawal.replace(/PHP |,/g, ''));
                 const trimmedAvailableBalance = parseFloat(availablebalance.replace(/PHP |,/g, ''));
-                const computedAvailable = trimmedTopup - trimmedWithdrawal
-                const formattedTopup = formatCurrency(trimmedTopup);
-                const formattedwithdrawal = formatCurrency(trimmedWithdrawal);
-                const formattedAvailable = formatCurrency(trimmedAvailableBalance);
-                const formattedComputedAvailable = formatCurrency(computedAvailable);
+                const computedAvailable = trimmedTopup - trimmedWithdrawal;
+                
+                const totalTopupDisplayed = formatCurrency(trimmedTopup);
+                const withdrawalDisplayed = formatCurrency(trimmedWithdrawal);
+                const availableBalanceDisplayed = formatCurrency(trimmedAvailableBalance);
+                const availableBalanceComputed = formatCurrency(computedAvailable);
 
-                try{
-                    expect(formattedwithdrawal).to.eq(formattedTotal);
-                    expect(formattedComputedAvailable).to.eq(formattedAvailable);
-                } catch(error){
-                    cy.log ("Not balance")
+                try {
+                    //expect withdrawalExported = withdrawalDisplayed
+                    expect(withdrawalExported).to.eq(withdrawalDisplayed);
+                    cy.task('writeToExcel', { filePath: filpath, sheetName: sheetName, cell: sheetCells.status, value: "PASSED" });
+                } catch (error) {
+                    cy.task('writeToExcel', { filePath: filpath, sheetName: sheetName, cell: sheetCells.status, value: "FAILED" });
+                    cy.task('writeToExcel', { filePath: filpath, sheetName: sheetName, cell: sheetCells.status, remarks: `The exported amount ${withdrawalExported} and displayed amount ${withdrawalDisplayed} are not equal.` });
                 }
-                
-                cy.task('writeToExcel', { filePath: filpath, sheetName: sheetName, cell: sheetCells.totalTopupAmount, value: formattedTopup });
-                cy.task('writeToExcel', { filePath: filpath, sheetName: sheetName, cell: sheetCells.totalWithdrawalAmount, value: formattedwithdrawal });
-                cy.task('writeToExcel', { filePath: filpath, sheetName: sheetName, cell: sheetCells.availableBalance, value: formattedComputedAvailable });
-                
-                GoToTopupHistory(merchantName, formattedTopup, index)
-            })
-        })
-    })
+
+                try {
+                    //expect availableBalanceDisplayed = availableBalanceComputed
+                    expect(availableBalanceDisplayed).to.eq(availableBalanceComputed);
+                    cy.task('writeToExcel', { filePath: filpath, sheetName: sheetName, cell: sheetCells.status, value: "PASSED" });
+                } catch (error) {
+                    cy.task('writeToExcel', { filePath: filpath, sheetName: sheetName, cell: sheetCells.status, value: "FAILED" });
+                    cy.task('writeToExcel', { filePath: filpath, sheetName: sheetName, cell: sheetCells.remarks, value: `The displayed amount ${availableBalanceDisplayed} and computed amount ${availableBalanceComputed} are not equal.` });
+                }
+
+                //total withdrawal exported
+                cy.task('writeToExcel', { filePath: filpath, sheetName: sheetName, cell: sheetCells.withdrawalExported, value: withdrawalExported });
+                //total withdrawal displayed
+                cy.task('writeToExcel', { filePath: filpath, sheetName: sheetName, cell: sheetCells.withdrawalDisplayed, value: withdrawalDisplayed });
+                //available balance displayed
+                cy.task('writeToExcel', { filePath: filpath, sheetName: sheetName, cell: sheetCells.availableBalanceDisplayed, value: availableBalanceDisplayed });
+                //available balance computed
+                cy.task('writeToExcel', { filePath: filpath, sheetName: sheetName, cell: sheetCells.availableBalanceComputed, value: availableBalanceComputed });
+
+                // Call GoToTopupHistory and pass the necessary variables
+                GoToTopupHistory(index, merchantName, totalTopupDisplayed);
+            });
+        });
+    });
 };
 
-const GoToTopupHistory = (merchantName, formattedTopup, index) => {
+const GoToTopupHistory = (index, merchantName, totalTopupDisplayed) => {
     const sheetCells = {
         accountNumber: `A${index+2}`,
         merchantName: `B${index+2}`,
-        withdrawalNetAmount: `F${index+2}`,
-        topupBalance: `G${index+2}`,
-        topupHistory: `H${index+2}`
+        totalTopupExported: `C${index+2}`,
+        totalTopupDisplayed: `D${index+2}`,
+        status: `I${index+2}`,
+        remarks: `J${index+2}`
     };
-    //click topup history
-    cy.get('.mb-3 > :nth-child(2)').click({ timeout:10000 })
-    cy.wait(3000)
 
-    //check if the page loaded
-    cy.get('[aria-rowindex="2"] > .rs-table-cell-group > [aria-colindex="3"] > .rs-table-cell-content').should('exist', { timeout:50000 })
+    // click topup history
+    cy.get('.mb-3 > :nth-child(2)').click({ timeout: 10000 });
+    cy.wait(3000);
+
+    // check if the page loaded
+    cy.get('[aria-rowindex="2"] > .rs-table-cell-group > [aria-colindex="3"] > .rs-table-cell-content').should('exist', { timeout: 50000 });
 
     // Merchant mapping
     const merchantMap = {
@@ -161,46 +184,44 @@ const GoToTopupHistory = (merchantName, formattedTopup, index) => {
     };
 
     // Type merchant name in search filter
-    const accountNumber = merchantMap[merchantName];
-    if (accountNumber) {
-        cy.get('.rs-input-group > .rs-input').type(`${accountNumber}{enter}`, { timeout: 10000 });
-        cy.task('writeToExcel', { filePath: filpath, sheetName: sheetName, cell: sheetCells.accountNumber, value: accountNumber });
+    const account = merchantMap[merchantName]; // Ensure accountNumber is set here
+    if (account) {
+        cy.get('.rs-input-group > .rs-input').type(`${account}{enter}`, { timeout: 10000 });
+        //account number
+        cy.task('writeToExcel', { filePath: filpath, sheetName: sheetName, cell: sheetCells.accountNumber, value: account });
+        //merchant name
         cy.task('writeToExcel', { filePath: filpath, sheetName: sheetName, cell: sheetCells.merchantName, value: merchantName });
     }
 
-    //check if the page loaded after the filter
-    cy.get('[aria-rowindex="2"] > .rs-table-cell-group > [aria-colindex="3"] > .rs-table-cell-content').should('have.text', merchantName, { timeout: 35000 })
-
-    //click export button
+    // check if the page loaded after the filter
+    cy.get('[aria-rowindex="2"] > .rs-table-cell-group > [aria-colindex="3"] > .rs-table-cell-content').should('have.text', merchantName, { timeout: 35000 });
+    // click export button
     cy.get('.flex > :nth-child(2) > div', { timeout: 3500, interval: 1200 }).click();
-
     // Wait for the button to change to "Download file"
     cy.get('a.rs-btn > div', { timeout: 50000 }).should('have.text', 'Download file').then(() => {
-    // Click the download button now that it is available
-    cy.get('a.rs-btn > div').click();
+        // Click the download button now that it is available
+        cy.get('a.rs-btn > div').click();
     });
 
-     // Compute all topup amount with status 'completed'
+    // Compute all topup amount with status 'completed'
     cy.task('parseCSV', topupFilePath).then((data) => {
-    const completedWithdrawals = data.filter(row => row.Status?.trim().toLowerCase() === 'completed');
-    const totalTopupBalance = completedWithdrawals.reduce((sum, row) => {
-    return sum + parseFloat(row['Top-up Amount'].replace(/PHP |,/g, ''));
-    }, 0);
+        const completedWithdrawals = data.filter(row => row.Status?.trim().toLowerCase() === 'completed');
+        const totalTopupBalance = completedWithdrawals.reduce((sum, row) => {
+            return sum + parseFloat(row['Top-up Amount'].replace(/PHP |,/g, ''));
+        }, 0);
+        const totalTopupExported = formatCurrency(totalTopupBalance);
 
-    const formattedTopupBalance = formatCurrency(totalTopupBalance);
+        try{
+            expect(totalTopupExported).to.eq(totalTopupDisplayed);
+            cy.task('writeToExcel', { filePath: filpath, sheetName: sheetName, cell: sheetCells.status, value: "PASSED" });
+        }catch (error){
+            cy.task('writeToExcel', { filePath: filpath, sheetName: sheetName, cell: sheetCells.status, value: "FAILED" });
+            cy.task('writeToExcel', { filePath: filpath, sheetName: sheetName, cell: sheetCells.remarks, value: `The displayed amount ${totalTopupExported} and computed amount ${totalTopupDisplayed} are not equal.` });
+        }
 
-    try{
-        expect(formattedTopupBalance).to.eq(formattedTopup);
-        cy.task('writeToExcel', { filePath: filpath, sheetName: sheetName, cell: sheetCells.topupBalance, value: "PASSED" });
-        cy.task('writeToExcel', { filePath: filpath, sheetName: sheetName, cell: sheetCells.withdrawalNetAmount, value: "PASSED" });
-        cy.task('writeToExcel', { filePath: filpath, sheetName: sheetName, cell: sheetCells.topupHistory, value: "PASSED" });
-    }catch(error){
-        cy.log("Not Balance")
-        cy.task('writeToExcel', { filePath: filpath, sheetName: sheetName, cell: sheetCells.topupBalance, value: "FAILED" });
-        cy.task('writeToExcel', { filePath: filpath, sheetName: sheetName, cell: sheetCells.withdrawalNetAmount, value: "FAILED" });
-        cy.task('writeToExcel', { filePath: filpath, sheetName: sheetName, cell: sheetCells.topupHistory, value: "FAILED" });
-    }
-    cy.log(`Total Withdrawal Amount for merchant ${merchantName}: PHP ${formattedTopupBalance}`);
-});
-
+        //total topup exported
+        cy.task('writeToExcel', { filePath: filpath, sheetName: sheetName, cell: sheetCells.totalTopupExported, value: totalTopupExported });
+        //total topup displayed
+        cy.task('writeToExcel', { filePath: filpath, sheetName: sheetName, cell: sheetCells.totalTopupDisplayed, value: totalTopupDisplayed });
+    });
 };

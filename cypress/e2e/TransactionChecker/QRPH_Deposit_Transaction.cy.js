@@ -154,7 +154,7 @@ const validateWebhookResponses = (filpath, sheetName, sheetRow) => {
                     cy.get('@callback_total_amount').should('eq', amount - fee);
                     break;
                 case 'RIVALRY LIMITED':
-                    const rivalryFee = Math.max(13, amount * 0.0275);
+                    const rivalryFee = Math.max(13, roundToTwo(amount * 0.0275));
                     cy.get('@callback_fee').should('eq', rivalryFee);
                     cy.get('@callback_total_amount').should('eq', amount - rivalryFee);
                     break;
